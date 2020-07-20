@@ -7,6 +7,12 @@
 
 #include <util/delay.h>
 #define DELAY _delay_ms
+#include <avr/interrupt.h>
+
+extern "C" { 
+	#include "light_ws2812.h" 
+};
+#include "freqDetect.h"
 
 
 #include <serial.h>
@@ -14,13 +20,11 @@
 // --------------------------------------------------------------- SETUP ---------------------------------------------------------------------------------
 
 
-//Note* currentNote = NULL;
+Note currentNote;
 //Display* displ = NULL;
 void setup() {
 	DDRC = 0b00000000; // SET C0 to iput
 	//Serial.begin(115200);
-	
-	//currentNote = new Note;
 	
 	// (mid, up, upright, downright, down, leftdown, rightdown, sharp, red0, red1, green, red2, red3)
 	//displ = new Display(3, 19, 18, 17, 7, 4, 2, 16, 6, 9, 5, 10, 11);
@@ -97,7 +101,8 @@ ISR(ADC_vect) {//when new ADC value ready
 	//  Serial.print("newData: ");
 	//  Serial.println(newData);
 	char str1[] = "I AM HERE 1 \r\n";
-	USART_Transmit_ar(str1);
+	char str2[] = "I AM HERE 2 \r\n";
+	char str3[] = "I AM HERE 2 \r\n";
 	
 	if (prevData < MID_POINT && newData >= MID_POINT){//if increasing and crossing midpoint
 		newSlope = newData - prevData;//calculate slope
@@ -113,8 +118,6 @@ ISR(ADC_vect) {//when new ADC value ready
 				index++;//increment index
 			}
 			else if (abs(timer[0]-timer[index])<timerTol && abs(slope[0]-newSlope)<slopeTol){//if timer duration and slopes match
-				char str2[] = "I AM HERE 2 \r\n";
-				USART_Transmit_ar(str2);
 				//sum timer values
 				totalTimer = 0;
 				for (unsigned char i=0;i<index;i++){
@@ -165,7 +168,6 @@ ISR(ADC_vect) {//when new ADC value ready
 		maxAmp = 0;
 	}
 	
-	
 	//PORTD = 0;
 	//if (checkMaxAmp > ampThreshold) /* && checkMaxAmp < maxAmpThreshold) */ {
 		//frequency = 38462.0/float(period);//calculate frequency timer rate/period
@@ -192,6 +194,29 @@ void checkClipping(){//manage clipping indication
 }
 // --------------------------------------------------------------- END PHYSICS -----------------------------------------------------------------------------
 
+// For normalizing huge and short deviations
+const int LONG_FREQ_AR_LEN = 60;
+double long_last_frequencies[LONG_FREQ_AR_LEN];
+int long_freq_ar_i = 0;
+const double FREQ_MAX_DIFF = 0.2f;
+
+// For normalizing small short deviations
+const int SHORT_FREQ_AR_LEN = 10;
+double short_last_frequencies[SHORT_FREQ_AR_LEN];
+int short_freq_ar_i = 0;
+
+// Get average from double array
+double get_av(double* ar, int len) {
+	double sum = 0;
+	for (int i = 0; i < len; i++) {
+		if (ar > 0) {
+			sum += ar[i];
+		}
+	}
+
+	return sum/(double)len;
+}
+
 
 int main() {
 	//DDRD = 0xFF;
@@ -206,33 +231,35 @@ int main() {
 	
 	USART_Init ( MYUBRR );
 	while(1) {
-		//USART_Transmit_ar(maxAmpStr);
-		//char mastr[8];
-		//sprintf(mastr, "%i", (int)checkMaxAmp);
-		//USART_Transmit_ar(mastr);
-		//
-		//USART_Transmit(' ');
-//
-		//USART_Transmit_ar(voltageStr);
-		//char vstr[8];
-		//sprintf(vstr, "%i", newData);
-		//USART_Transmit_ar(vstr);
-		//
-		//USART_Transmit(' ');
-		//
-		
 		float voltage = newData * (5.0 / 1023.0);
 		
 		//PORTD = 0;
 		if (checkMaxAmp > ampThreshold) /* && checkMaxAmp < maxAmpThreshold) */ {
 			frequency = 38462.0/float(period);//calculate frequency timer rate/period
 			
-			
+			// Ignore noise and big swings
+			long_last_frequencies[long_freq_ar_i++] = frequency;
+			if (long_freq_ar_i >= LONG_FREQ_AR_LEN) long_freq_ar_i = 0;
+			float long_average_freq = get_av(long_last_frequencies, LONG_FREQ_AR_LEN);
+			float diff = abs(long_average_freq - frequency);
+			float max_diff = long_average_freq * FREQ_MAX_DIFF;
 
-			//USART_Transmit_ar(freqStr);
-			//char fstr[15];
-			//sprintf(fstr, "%f", (double)period);
-			//USART_Transmit_ar(fstr);
+			if (diff < max_diff){
+				// get average freq
+				short_last_frequencies[short_freq_ar_i++] = frequency;
+				if (short_freq_ar_i >= SHORT_FREQ_AR_LEN) short_freq_ar_i = 0;
+				float short_average_freq = get_av(short_last_frequencies, SHORT_FREQ_AR_LEN);
+
+				getNoteByFreq(&currentNote, short_average_freq); // RECOGNIZE NOTE
+				if (currentNote.valid) {
+					//printFreqNote(short_average_freq, currentNote);
+					//displ->displayNote(currentNote, short_average_freq); // DISPLAY NOTE
+					
+					USART_Transmit(currentNote.note);
+					USART_Transmit_ar(newLine);
+						  
+				}
+			}
 			
 			//USART_Transmit_ar(str, strlen(str));
 	
@@ -252,10 +279,86 @@ int main() {
 			
 		}
 		
-		USART_Transmit_ar(newLine);
-		
 		DELAY(10);
 	}
 	
 	return 0;
 }
+
+//#define MAXPIX 30
+//#define COLORLENGTH (MAXPIX/2)
+//#define FADE (256/COLORLENGTH)
+//
+//struct cRGB colors[8];
+//struct cRGB led[MAXPIX];
+//
+//#define fullLedPower 120
+//#define smallLedPower 55
+//
+//int main(void)
+//{
+	//
+	//uint8_t j = 1;
+	//uint8_t k = 1;
+//
+	//DDRB|=_BV(ws2812_pin);
+	//
+	//uint8_t i;
+	//for(i=MAXPIX; i>0; i--)
+	//{
+		//led[i-1].r=0;led[i-1].g=0;led[i-1].b=0;
+	//}
+	//
+	////Rainbowcolors
+	//colors[0].r=150; colors[0].g=150; colors[0].b=150;
+	//colors[1].r=255; colors[1].g=000; colors[1].b=000;//red
+	//colors[2].r=255; colors[2].g=100; colors[2].b=000;//orange
+	//colors[3].r=100; colors[3].g=255; colors[3].b=000;//yellow
+	//colors[4].r=000; colors[4].g=255; colors[4].b=000;//green
+	//colors[5].r=000; colors[5].g=100; colors[5].b=255;//light blue (türkis)
+	//colors[6].r=000; colors[6].g=000; colors[6].b=255;//blue
+	//colors[7].r=100; colors[7].g=000; colors[7].b=255;//violet
+	//
+	//while(1)
+	//{
+		////shift all vallues by one led
+		//uint8_t i=0;
+		//for(i=MAXPIX; i>1; i--)
+		//led[i-1]=led[i-2];
+		////change colour when colourlength is reached
+		//if(k>COLORLENGTH)
+		//{
+			//j++;
+			//if(j>7)
+			//{
+				//j=0;
+			//}
+//
+			//k=0;
+		//}
+		//k++;
+		////loop colouers
+		//
+		////fade red
+		//if(led[0].r<(colors[j].r-FADE))
+		//led[0].r+=FADE;
+		//
+		//if(led[0].r>(colors[j].r+FADE))
+		//led[0].r-=FADE;
+//
+		//if(led[0].g<(colors[j].g-FADE))
+		//led[0].g+=FADE;
+		//
+		//if(led[0].g>(colors[j].g+FADE))
+		//led[0].g-=FADE;
+//
+		//if(led[0].b<(colors[j].b-FADE))
+		//led[0].b+=FADE;
+		//
+		//if(led[0].b>(colors[j].b+FADE))
+		//led[0].b-=FADE;
+//
+		//_delay_ms(10);
+		//ws2812_sendarray((uint8_t *)led,MAXPIX*3);
+	//}
+//}

@@ -24,3 +24,15 @@ void USART_Transmit_ar (char* data) {
 		USART_Transmit(data[i]);
 	}
 }
+
+void USART_Transmit_ar_ln (char* data) {
+	USART_Transmit_ar(data);
+	USART_Transmit('\r');
+	USART_Transmit('\n');
+}
+
+void USART_Transmit_int (int data) {
+	char fstr[15];
+	sprintf(fstr, "%i", data);
+	USART_Transmit_ar(fstr);
+}
