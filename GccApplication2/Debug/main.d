@@ -11,10 +11,12 @@ main.d main.o: .././main.cpp c:\avr8-gnu\avr\include\math.h \
  c:\avr8-gnu\avr\include\avr\portpins.h \
  c:\avr8-gnu\avr\include\avr\common.h \
  c:\avr8-gnu\avr\include\avr\version.h c:\avr8-gnu\avr\include\avr\fuse.h \
- c:\avr8-gnu\avr\include\avr\lock.h c:\avr8-gnu\avr\include\util\delay.h \
+ c:\avr8-gnu\avr\include\avr\lock.h ../include/config.h \
+ c:\avr8-gnu\avr\include\util\delay.h \
  c:\avr8-gnu\avr\include\util\delay_basic.h ../include/freqDetect.h \
- ../include/Display.h ../include/freqDetect.h ../include/light_ws2812.h \
- ../include/serial.h c:\avr8-gnu\avr\include\string.h
+ ../include/Display.h ../include/config.h ../include/freqDetect.h \
+ ../include/light_ws2812.h ../include/serial.h \
+ c:\avr8-gnu\avr\include\string.h
 
 c:\avr8-gnu\avr\include\math.h:
 
@@ -50,6 +52,8 @@ c:\avr8-gnu\avr\include\avr\fuse.h:
 
 c:\avr8-gnu\avr\include\avr\lock.h:
 
+../include/config.h:
+
 c:\avr8-gnu\avr\include\util\delay.h:
 
 c:\avr8-gnu\avr\include\util\delay_basic.h:
@@ -57,6 +61,8 @@ c:\avr8-gnu\avr\include\util\delay_basic.h:
 ../include/freqDetect.h:
 
 ../include/Display.h:
+
+../include/config.h:
 
 ../include/freqDetect.h:
 

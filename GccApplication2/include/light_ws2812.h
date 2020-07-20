@@ -13,6 +13,8 @@
 #ifndef LIGHT_WS2812_H_
 #define LIGHT_WS2812_H_
 
+
+#include "config.h"
 #include <avr/io.h>
 #include <avr/interrupt.h>
 

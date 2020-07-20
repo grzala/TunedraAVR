@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <avr/interrupt.h>
 
-#define F_CPU 8000000UL // 8 MHz clock speed
+#include "config.h"
 
 #include <util/delay.h>
 #define DELAY _delay_ms
@@ -208,63 +208,63 @@ double get_av(double* ar, int len) {
 }
 
 
-int main() {
-	setup();
-	USART_Init ( MYUBRR );
-	while(1) {
-		float voltage = newData * (5.0 / 1023.0);
-		if (checkMaxAmp > ampThreshold) /* && checkMaxAmp < maxAmpThreshold) */ {
-			frequency = 38462.0/float(period);//calculate frequency timer rate/period
-			
-			// Ignore noise and big swings
-			long_last_frequencies[long_freq_ar_i++] = frequency;
-			if (long_freq_ar_i >= LONG_FREQ_AR_LEN) long_freq_ar_i = 0;
-			float long_average_freq = get_av(long_last_frequencies, LONG_FREQ_AR_LEN);
-			float diff = abs(long_average_freq - frequency);
-			float max_diff = long_average_freq * FREQ_MAX_DIFF;
-
-			if (diff < max_diff){
-				// get average freq
-				short_last_frequencies[short_freq_ar_i++] = frequency;
-				if (short_freq_ar_i >= SHORT_FREQ_AR_LEN) short_freq_ar_i = 0;
-				float short_average_freq = get_av(short_last_frequencies, SHORT_FREQ_AR_LEN);
-
-				getNoteByFreq(&currentNote, short_average_freq); // RECOGNIZE NOTE
-				if (currentNote.valid) {
-					//printFreqNote(short_average_freq, currentNote);
-					//displ->displayNote(currentNote, short_average_freq); // DISPLAY NOTE
-					
-					displ.lightIndicator(&currentNote, short_average_freq);
-				}
-			}
-			
-		}
-		
-		DELAY(10);
-	}
-	
-	return 0;
-}
-
-//int v = 0;
-//
-//
-//
-//int main(void)
-//{
-	//USART_Init ( MYUBRR );
-	//double mockFreq = 34.1;
-	//getNoteByFreq(&currentNote, mockFreq);
+//int main() {
 	//setup();
-	//
-	//while(1)
-	//{
-		//displ.lightIndicator(&currentNote, mockFreq);
-		////test(v);
-		//v += 5;
-		//if (v > 80) {
-			//v = 0;
+	//USART_Init ( MYUBRR );
+	//while(1) {
+		//float voltage = newData * (5.0 / 1023.0);
+		//if (checkMaxAmp > ampThreshold) /* && checkMaxAmp < maxAmpThreshold) */ {
+			//frequency = 38462.0/float(period);//calculate frequency timer rate/period
+			//
+			//// Ignore noise and big swings
+			//long_last_frequencies[long_freq_ar_i++] = frequency;
+			//if (long_freq_ar_i >= LONG_FREQ_AR_LEN) long_freq_ar_i = 0;
+			//float long_average_freq = get_av(long_last_frequencies, LONG_FREQ_AR_LEN);
+			//float diff = abs(long_average_freq - frequency);
+			//float max_diff = long_average_freq * FREQ_MAX_DIFF;
+//
+			//if (diff < max_diff){
+				//// get average freq
+				//short_last_frequencies[short_freq_ar_i++] = frequency;
+				//if (short_freq_ar_i >= SHORT_FREQ_AR_LEN) short_freq_ar_i = 0;
+				//float short_average_freq = get_av(short_last_frequencies, SHORT_FREQ_AR_LEN);
+//
+				//getNoteByFreq(&currentNote, short_average_freq); // RECOGNIZE NOTE
+				//if (currentNote.valid) {
+					////printFreqNote(short_average_freq, currentNote);
+					////displ->displayNote(currentNote, short_average_freq); // DISPLAY NOTE
+					//
+					//displ.lightIndicator(&currentNote, short_average_freq);
+				//}
+			//}
+			//
 		//}
-		//_delay_ms(20);
+		//
+		//DELAY(10);
 	//}
+	//
+	//return 0;
 //}
+
+int v = 0;
+
+
+
+int main(void)
+{
+	USART_Init ( MYUBRR );
+	double mockFreq = 34.1;
+	setup();
+	
+	while(1)
+	{
+		getNoteByFreq(&currentNote, mockFreq);
+		displ.lightIndicator(&currentNote, mockFreq);
+		//test(v);
+		mockFreq += 5;
+		if (mockFreq > 250) {
+			mockFreq = 16;
+		}
+		_delay_ms(20);
+	}
+}

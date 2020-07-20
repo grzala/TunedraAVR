@@ -159,6 +159,9 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="include\config.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="include\Display.h">
       <SubType>compile</SubType>
     </Compile>

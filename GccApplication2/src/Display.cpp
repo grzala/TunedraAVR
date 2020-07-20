@@ -3,10 +3,9 @@
 
 // IMPLEMENT CLASS DISPLAY
 void Display::initialize(int midPin, int upPin, int upRPin, int downRPin,
-				int downPin, int downLPin, int UpLPin, int sharpPin,
-				int ledDataPin) {
+				int downPin, int downLPin, int UpLPin, int sharpPin) {
 					
-	DISPLAY_PORT_CONFIG |=_BV(ledDataPin);
+	DISPLAY_PORT_CONFIG |=_BV(ws2812_pin);
 	
 	//pinMode(midPin, OUTPUT);
 	//pinMode(upPin, OUTPUT);

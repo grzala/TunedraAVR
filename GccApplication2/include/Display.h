@@ -12,6 +12,7 @@
 #define DISPLAY_H_
 
 
+#include "config.h"
 #include <math.h>
 #include "freqDetect.h"
 
@@ -46,14 +47,14 @@ typedef enum {
 typedef DisplInstruction DI;
 
 #ifndef DISPLAY_PORT_OUTPUT
+# warning "DISPLAY PORT NOT CONFIGURED"
 #define DISPLAY_PORT_OUTPUT PORTB
 #endif
 #ifndef DISPLAY_PORT_CONFIG
+# warning "DISPLAY PORT NOT CONFIGURED"
 #define DISPLAY_PORT_CONFIG DDRB
 #endif
 
-#define ws2812_port B
-#define ws2812_pin 1
 
 #define INDICATOR_BAR_LEN 5
 
