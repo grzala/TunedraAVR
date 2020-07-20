@@ -36,11 +36,13 @@
 ///////////////////////////////////////////////////////////////////////
 // Define I/O pin
 ///////////////////////////////////////////////////////////////////////
-#if !defined(ws2812_port)
+#ifndef ws2812_port
+# warning "LED output PORT not defined"
 #define ws2812_port B   // Data port
 #endif
 
-#if !defined(ws2812_pin)
+#ifndef ws2812_pin
+# warning "LED output pin not defined"
 #define ws2812_pin  2   // Data out pin
 #endif
 
@@ -51,7 +53,7 @@
  * cRGBW:    RGBW for SK6812RGBW
  */
 
-struct cRGB  { uint8_t g; uint8_t r; uint8_t b; };
+struct cRGB  { uint8_t r; uint8_t g; uint8_t b; }; //switched r with g for 2812D
 struct cRGBW { uint8_t g; uint8_t r; uint8_t b; uint8_t w;};
 
 

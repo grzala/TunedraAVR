@@ -5,6 +5,8 @@
  *  Author: mpana
  */ 
 
+// REMEMBER TO USE SOME DELAY IN LOOP WHERE DISPLAY IS CALLED
+
 
 #ifndef DISPLAY_H_
 #define DISPLAY_H_
@@ -43,64 +45,81 @@ typedef enum {
 } DisplInstruction;
 typedef DisplInstruction DI;
 
+#ifndef DISPLAY_PORT_OUTPUT
+#define DISPLAY_PORT_OUTPUT PORTB
+#endif
+#ifndef DISPLAY_PORT_CONFIG
+#define DISPLAY_PORT_CONFIG DDRB
+#endif
+
+#define ws2812_port B
+#define ws2812_pin 1
+
+#define INDICATOR_BAR_LEN 5
+
+extern "C" {
+	#include "light_ws2812.h"
+};
+
+
+typedef struct {
+	double max_distance;
+	double As[3];
+	double Bs[3];
+	double xBounds[3];
+} LEDFunctionCache;
+
 // Display class handles LED 7 segment display, LED indicating sharp note and a LED bar indicating deviation
 class Display {
 	public:
 	static const int LEDFunctions_Len = 3; // 3 linear functions will help determine LED brightness
 	
-	Display(int midPin, int upPin, int upRPin, int downRPin,
-	int downPin, int downLPin, int UpLPin, int sharpPin,
-	int rLED0, int rLED1, int gLED, int rLED2, int rLED3);
+	void initialize(int midPin, int upPin, int upRPin, int downRPin,
+			int downPin, int downLPin, int UpLPin, int sharpPin);
 	void clean();
-	void cleanIndicator();
-	void do_sth1();
-	void do_sth2();
 	void light(DI instruction);
 	void light(unsigned int instruction);
 	void lightSharp(bool light);
-	void lightIndicator(double currentFreq, const Note* note);
-	void write(DBN pin);
-	void write(unsigned int pin);
-	void displayNote(const Note* note, double frequency);
+	void lightIndicator(const Note* note, double currentFreq);
+	void displayNote(double frequency, const Note* note);
 	void resetIfTime();
 
 	private:
+	void cleanIndicator();
+	void write(DBN pin);
+	void write(unsigned int pin);
+	
+	
 	int pin_array[7];
 	unsigned int currentlyDisplaying = 0;
 	int sharpPin;
 	bool currentSharpPinStatus = false;
-	int indicatorBar[5];
+	cRGB indicatorBar[INDICATOR_BAR_LEN];
 	
 	unsigned long time_at_last_display = 0;
-	const unsigned int time_to_reset = 5000;
+	static const unsigned int time_to_reset = 5000;
 
 	
 	// Adjust those to alter light. LEDs are lighted according to three linear functions intersecting
-	constexpr static double MAX_ANALOG = 200.0; // LEDS do not need to go any higher
+	static constexpr double MAX_ANALOG {200.0}; // LEDS do not need to go any higher
 	
-	constexpr static double xBoundFactors[LEDFunctions_Len] = { 0.035, 0.15, 0.35 };
-	constexpr static double yBoundFactors[LEDFunctions_Len] = { 0.4, 0.05, 0.0 };
-	constexpr static double yBounds[LEDFunctions_Len] = {
+	static constexpr double xBoundFactors[LEDFunctions_Len] = { 0.035, 0.15, 0.35 };
+	static constexpr double yBoundFactors[LEDFunctions_Len] = { 0.4, 0.05, 0.0 };
+	static constexpr double yBounds[LEDFunctions_Len] = {
 		yBoundFactors[0] * MAX_ANALOG,
 		yBoundFactors[1] * MAX_ANALOG,
 		yBoundFactors[2] * MAX_ANALOG
 	};
 	
-	typedef struct {
-		double max_distance;
-		double As[Display::LEDFunctions_Len];
-		double Bs[Display::LEDFunctions_Len];
-		double xBounds[Display::LEDFunctions_Len];
-	} LEDFunctionCache;
-	LEDFunctionCache ledFCache {-1};
+	LEDFunctionCache ledFCache;
 
 	
 	int getIndicatorValByDistance(double distance, double max_distance);
 	void rebuildCache(double max_distance);
 	void printCacheInfo();
 };
-// END CLASS DISPLAY DECLARATION
 
+// END CLASS DISPLAY DECLARATION
 
 
 #endif /* DISPLAY_H_ */

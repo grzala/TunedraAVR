@@ -2,9 +2,12 @@
 
 
 // IMPLEMENT CLASS DISPLAY
-Display::Display(int midPin, int upPin, int upRPin, int downRPin,
+void Display::initialize(int midPin, int upPin, int upRPin, int downRPin,
 				int downPin, int downLPin, int UpLPin, int sharpPin,
-				int rLED0, int rLED1, int gLED, int rLED2, int rLED3) {
+				int ledDataPin) {
+					
+	DISPLAY_PORT_CONFIG |=_BV(ledDataPin);
+	
 	//pinMode(midPin, OUTPUT);
 	//pinMode(upPin, OUTPUT);
 	//pinMode(upRPin, OUTPUT);
@@ -29,11 +32,6 @@ Display::Display(int midPin, int upPin, int upRPin, int downRPin,
 	
 	this->sharpPin = sharpPin;
 
-	this->indicatorBar[0] = rLED0;
-	this->indicatorBar[1] = rLED1;
-	this->indicatorBar[2] = gLED;
-	this->indicatorBar[3] = rLED2;
-	this->indicatorBar[4] = rLED3;
 
 	this->clean();
 	this->lightSharp(false);
@@ -52,28 +50,12 @@ void Display::clean() {
 }
 
 void Display::cleanIndicator() {
-	//analogWrite(this->indicatorBar[0], 0);
-	//analogWrite(this->indicatorBar[1], 0);
-	//analogWrite(this->indicatorBar[2], 0);
-	//analogWrite(this->indicatorBar[3], 0);
-	//analogWrite(this->indicatorBar[4], 0);
-}
-
-void Display::do_sth1() {
-	this->clean();
-	
-	//digitalWrite(this->pin_array[DBN::mid], HIGH);
-	//digitalWrite(this->pin_array[DBN::up], HIGH);
-	//digitalWrite(this->pin_array[DBN::down], HIGH);
-}
-
-void Display::do_sth2() {
-	this->clean();
-	
-	//digitalWrite(this->pin_array[DBN::upR], HIGH);
-	//digitalWrite(this->pin_array[DBN::downR], HIGH);
-	//digitalWrite(this->pin_array[DBN::upL], HIGH);
-	//digitalWrite(this->pin_array[DBN::downL], HIGH);
+	for (int i = 0; i < 5; i++) {
+		this->indicatorBar[i].r = 0;
+		this->indicatorBar[i].g = 0;
+		this->indicatorBar[i].b = 0;
+	}
+	ws2812_sendarray((uint8_t *)this->indicatorBar, INDICATOR_BAR_LEN*3);
 }
 
 void Display::write(DBN pin) {
@@ -146,17 +128,18 @@ void Display::printCacheInfo() {
 	//Serial.println();
 }
 
+#include "serial.h"
 // build a and b coefficients for linear functions
 void Display::rebuildCache(double max_distance) {
-	ledFCache.xBounds[0] = xBoundFactors[0] * max_distance;
-	ledFCache.xBounds[1] = xBoundFactors[1] * max_distance;
-	ledFCache.xBounds[2] = xBoundFactors[2] * max_distance;
-
-	ledFCache.As[0] = (yBounds[0] - MAX_ANALOG) / (ledFCache.xBounds[0]);
-	ledFCache.Bs[0] = MAX_ANALOG;
+	this->ledFCache.xBounds[0] = this->xBoundFactors[0] * max_distance;
+	this->ledFCache.xBounds[1] = this->xBoundFactors[1] * max_distance;
+	this->ledFCache.xBounds[2] = this->xBoundFactors[2] * max_distance; 
 	
-	ledFCache.As[1] = (yBounds[1] - yBounds[0]) / (ledFCache.xBounds[1] - ledFCache.xBounds[0]);
-	ledFCache.Bs[1] = yBounds[1] - (ledFCache.As[1] * ledFCache.xBounds[1]);
+	this->ledFCache.As[0] = (this->yBounds[0] - this->MAX_ANALOG) / (this->ledFCache.xBounds[0]);
+	this->ledFCache.Bs[0] = this->MAX_ANALOG;
+	
+	this->ledFCache.As[1] = (this->yBounds[1] - this->yBounds[0]) / (this->ledFCache.xBounds[1] - this->ledFCache.xBounds[0]);
+	this->ledFCache.Bs[1] = this->yBounds[1] - (this->ledFCache.As[1] * this->ledFCache.xBounds[1]);
 	
 	ledFCache.As[2] = (yBounds[2] - yBounds[1]) / (ledFCache.xBounds[2] - ledFCache.xBounds[1]);
 	ledFCache.Bs[2] = yBounds[2] - (ledFCache.As[2] * ledFCache.xBounds[2]);
@@ -179,11 +162,10 @@ int Display::getIndicatorValByDistance(double distance, double max_distance) {
 }
 
 // currentFreq must be beterrn min and max freq of note
-void Display::lightIndicator(double currentFreq, const Note* note) {
+void Display::lightIndicator(const Note* note, double currentFreq) {
 	if (currentFreq < note->min_freq || currentFreq > note->max_freq) {
-		return;
+		//return;
 	}
-
 	double max_dist = (note->max_freq - note->min_freq);
 
 	double bound_1 = note->freq - (note->freq  - note->min_freq)/2.0;
@@ -197,13 +179,20 @@ void Display::lightIndicator(double currentFreq, const Note* note) {
 		fmin(max_dist, note->max_freq - currentFreq)
 	};
 	
-	for (int i = 0; i < 5; i++) {
+	for (int i = 0; i < INDICATOR_BAR_LEN; i++) {
 		int val = this->getIndicatorValByDistance(dists[i], max_dist);
-		//analogWrite(this->indicatorBar[i], val);
+		if (i != 2) {
+			this->indicatorBar[i].r = val;
+		} else { 
+			this->indicatorBar[i].g = val;
+		}
 	}
+	
+
+	ws2812_sendarray((uint8_t *)this->indicatorBar, INDICATOR_BAR_LEN*3);
 }
 
-void Display::displayNote(const Note* note, double frequency) {
+void Display::displayNote(double frequency, const Note* note) {
 	DI di = DI::A;
 	switch(note->note) {
 		case 'A':
@@ -231,7 +220,7 @@ void Display::displayNote(const Note* note, double frequency) {
 	
 	this->light(di);
 	this->lightSharp(note->sharp);
-	this->lightIndicator(frequency, note);
+	this->lightIndicator(note, frequency);
 	//this->time_at_last_display = millis();
 }
 
