@@ -165,7 +165,10 @@
     <Compile Include="include\Display.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="include\freqDetect.h">
+    <Compile Include="include\noteDetection.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="include\frequencyDetection.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="include\light_ws2812.h">
@@ -180,7 +183,10 @@
     <Compile Include="src\Display.cpp">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="src\freqDetect.cpp">
+    <Compile Include="src\noteDetection.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\frequencyDetection.cpp">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="src\light_ws2812.c">

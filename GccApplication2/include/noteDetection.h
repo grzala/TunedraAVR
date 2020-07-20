@@ -6,8 +6,8 @@
  */ 
 
 
-#ifndef FREQDETECT_H_
-#define FREQDETECT_H_
+#ifndef NOTEDETECTION_H_
+#define NOTEDETECTION_H_
 
 #include <math.h>
 #include <stdlib.h>
@@ -50,4 +50,4 @@ double get_octave_multiplier(double freq);
 void getNoteByFreq(Note* note, double freq);
 
 
-#endif /* FREQDETECT_H_ */
+#endif /* NOTEDETECTION_H_ */

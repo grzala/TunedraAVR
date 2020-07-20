@@ -1,21 +1,21 @@
 Archive member included to satisfy reference by file (symbol)
 
 c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(addsf3.o)
-                              src/Display.o (__subsf3)
+                              main.o (__subsf3)
 c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(addsf3x.o)
                               c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(addsf3.o) (__addsf3x)
 c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(cmpsf2.o)
-                              src/Display.o (__ltsf2)
+                              main.o (__ltsf2)
 c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(divsf3.o)
                               main.o (__divsf3)
 c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(divsf3x.o)
                               c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(divsf3.o) (__divsf3x)
 c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(fixsfsi.o)
-                              src/Display.o (__fixsfsi)
+                              main.o (__fixsfsi)
 c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(fixunssfsi.o)
                               c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(fixsfsi.o) (__fixunssfsi)
 c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(floatsisf.o)
-                              main.o (__floatsisf)
+                              main.o (__floatunsisf)
 c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(fmin.o)
                               src/Display.o (fmin)
 c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(fp_cmp.o)
@@ -35,9 +35,9 @@ c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(fp_split3.o
 c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(fp_zero.o)
                               c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(addsf3x.o) (__fp_zero)
 c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(gesf2.o)
-                              src/freqDetect.o (__gesf2)
+                              src/noteDetection.o (__gesf2)
 c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(mulsf3.o)
-                              src/Display.o (__mulsf3)
+                              main.o (__mulsf3)
 c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(mulsf3x.o)
                               c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(mulsf3.o) (__mulsf3x)
 c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/avr4\libgcc.a(_exit.o)
@@ -76,22 +76,7 @@ Discarded input sections
  .bss           0x00000000        0x0 main.o
  .text._Z13checkClippingv
                 0x00000000        0xc main.o
- .text._Z6get_avPdi
-                0x00000000       0x8a main.o
- .bss.v         0x00000000        0x2 main.o
- .bss.short_freq_ar_i
-                0x00000000        0x2 main.o
- .bss.short_last_frequencies
-                0x00000000       0x28 main.o
- .bss.long_freq_ar_i
-                0x00000000        0x2 main.o
- .bss.long_last_frequencies
-                0x00000000       0xf0 main.o
  .data.vala     0x00000000        0x2 main.o
- .data._ZL12ampThreshold
-                0x00000000        0x1 main.o
- .bss._ZL9frequency
-                0x00000000        0x4 main.o
  .text          0x00000000        0x0 src/Display.o
  .data          0x00000000        0x0 src/Display.o
  .bss           0x00000000        0x0 src/Display.o
@@ -99,25 +84,25 @@ Discarded input sections
                 0x00000000        0xa src/Display.o
  .text._ZN7Display5writeEj
                 0x00000000       0x16 src/Display.o
+ .text._ZN7Display5lightE16DisplInstruction
+                0x00000000        0x6 src/Display.o
  .text._ZN7Display14printCacheInfoEv
                 0x00000000        0x2 src/Display.o
- .text._ZN7Display12rebuildCacheEd
-                0x00000000      0x132 src/Display.o
- .text._ZN7Display25getIndicatorValByDistanceEdd
-                0x00000000       0xf8 src/Display.o
- .text._ZN7Display14lightIndicatorEPK4Noted
-                0x00000000      0x230 src/Display.o
- .text._ZN7Display11displayNoteEdPK4Note
-                0x00000000       0x7c src/Display.o
  .text._ZN7Display11resetIfTimeEv
                 0x00000000        0x2 src/Display.o
- .text          0x00000000        0x0 src/freqDetect.o
- .data          0x00000000        0x0 src/freqDetect.o
- .bss           0x00000000        0x0 src/freqDetect.o
+ .text          0x00000000        0x0 src/noteDetection.o
+ .data          0x00000000        0x0 src/noteDetection.o
+ .bss           0x00000000        0x0 src/noteDetection.o
  .text._Z11isFreqLegald
-                0x00000000       0x3c src/freqDetect.o
+                0x00000000       0x3c src/noteDetection.o
  .text._Z21get_octave_multiplierd
-                0x00000000       0x7c src/freqDetect.o
+                0x00000000       0x7c src/noteDetection.o
+ .text          0x00000000        0x0 src/frequencyDetection.o
+ .data          0x00000000        0x0 src/frequencyDetection.o
+ .bss           0x00000000        0x0 src/frequencyDetection.o
+ .debug_line    0x00000000        0x0 src/frequencyDetection.o
+ .debug_str     0x00000000      0x157 src/frequencyDetection.o
+ .comment       0x00000000       0x31 src/frequencyDetection.o
  .text          0x00000000        0x0 src/light_ws2812.o
  .data          0x00000000        0x0 src/light_ws2812.o
  .bss           0x00000000        0x0 src/light_ws2812.o
@@ -166,13 +151,9 @@ Discarded input sections
  .text          0x00000000        0x0 c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(divsf3.o)
  .data          0x00000000        0x0 c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(divsf3.o)
  .bss           0x00000000        0x0 c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(divsf3.o)
- .text.avr-libc.fplib
-                0x00000000        0x4 c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(divsf3.o)
  .text          0x00000000        0x0 c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(divsf3x.o)
  .data          0x00000000        0x0 c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(divsf3x.o)
  .bss           0x00000000        0x0 c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(divsf3x.o)
- .text.avr-libc.fplib
-                0x00000000       0xcc c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(divsf3x.o)
  .text          0x00000000        0x0 c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(fixsfsi.o)
  .data          0x00000000        0x0 c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(fixsfsi.o)
  .bss           0x00000000        0x0 c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(fixsfsi.o)
@@ -185,8 +166,6 @@ Discarded input sections
  .text          0x00000000        0x0 c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(fmin.o)
  .data          0x00000000        0x0 c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(fmin.o)
  .bss           0x00000000        0x0 c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(fmin.o)
- .text.avr-libc.fplib
-                0x00000000       0x3e c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(fmin.o)
  .text          0x00000000        0x0 c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(fp_cmp.o)
  .data          0x00000000        0x0 c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(fp_cmp.o)
  .bss           0x00000000        0x0 c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(fp_cmp.o)
@@ -366,7 +345,8 @@ Linker script and memory map
 LOAD C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.3.300/gcc/dev/atmega8/avr4/crtatmega8.o
 LOAD main.o
 LOAD src/Display.o
-LOAD src/freqDetect.o
+LOAD src/noteDetection.o
+LOAD src/frequencyDetection.o
 LOAD src/light_ws2812.o
 LOAD src/serial.o
 START GROUP
@@ -478,7 +458,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000     0x112c
+.text           0x00000000     0x18e0
  *(.vectors)
  .vectors       0x00000000       0x26 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.3.300/gcc/dev/atmega8/avr4/crtatmega8.o
                 0x00000000                __vector_default
@@ -569,120 +549,142 @@ END GROUP
  .text.__vector_14
                 0x000000a4      0x2f0 main.o
                 0x000000a4                __vector_14
- .text.main     0x00000394       0x1e main.o
-                0x00000394                main
+ .text._Z6get_avPdi
+                0x00000394       0x8a main.o
+                0x00000394                _Z6get_avPdi
+ .text.main     0x0000041e      0x16a main.o
+                0x0000041e                main
  .text._GLOBAL__sub_I_currentNote
-                0x000003b2       0x18 main.o
+                0x00000588       0x18 main.o
  .text._ZN7Display14cleanIndicatorEv
-                0x000003ca       0x20 src/Display.o
-                0x000003ca                _ZN7Display14cleanIndicatorEv
+                0x000005a0       0x20 src/Display.o
+                0x000005a0                _ZN7Display14cleanIndicatorEv
  .text._ZN7Display5lightEj
-                0x000003ea       0x34 src/Display.o
-                0x000003ea                _ZN7Display5lightEj
- .text._ZN7Display5lightE16DisplInstruction
-                0x0000041e        0x6 src/Display.o
-                0x0000041e                _ZN7Display5lightE16DisplInstruction
+                0x000005c0       0x34 src/Display.o
+                0x000005c0                _ZN7Display5lightEj
  .text._ZN7Display10lightSharpEb
-                0x00000424       0x10 src/Display.o
-                0x00000424                _ZN7Display10lightSharpEb
+                0x000005f4       0x10 src/Display.o
+                0x000005f4                _ZN7Display10lightSharpEb
  .text._ZN7Display10initializeEv
-                0x00000434       0x24 src/Display.o
-                0x00000434                _ZN7Display10initializeEv
+                0x00000604       0x24 src/Display.o
+                0x00000604                _ZN7Display10initializeEv
+ .text._ZN7Display12rebuildCacheEd
+                0x00000628      0x132 src/Display.o
+                0x00000628                _ZN7Display12rebuildCacheEd
+ .text._ZN7Display25getIndicatorValByDistanceEdd
+                0x0000075a       0xf8 src/Display.o
+                0x0000075a                _ZN7Display25getIndicatorValByDistanceEdd
+ .text._ZN7Display14lightIndicatorEPK4Noted
+                0x00000852      0x230 src/Display.o
+                0x00000852                _ZN7Display14lightIndicatorEPK4Noted
+ .text._ZN7Display11displayNoteEPK4Noted
+                0x00000a82       0x7c src/Display.o
+                0x00000a82                _ZN7Display11displayNoteEPK4Noted
  .text._Z13getNoteByFreqP4Noted
-                0x00000458      0x390 src/freqDetect.o
-                0x00000458                _Z13getNoteByFreqP4Noted
+                0x00000afe      0x390 src/noteDetection.o
+                0x00000afe                _Z13getNoteByFreqP4Noted
  .text.ws2812_sendarray
-                0x000007e8       0x5c src/light_ws2812.o
-                0x000007e8                ws2812_sendarray
+                0x00000e8e       0x5c src/light_ws2812.o
+                0x00000e8e                ws2812_sendarray
  .text.avr-libc.fplib
-                0x00000844        0xa c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(addsf3.o)
-                0x00000844                __subsf3
-                0x00000846                __addsf3
+                0x00000eea        0xa c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(addsf3.o)
+                0x00000eea                __subsf3
+                0x00000eec                __addsf3
  .text.avr-libc.fplib
-                0x0000084e       0xc0 c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(addsf3x.o)
-                0x00000868                __addsf3x
+                0x00000ef4       0xc0 c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(addsf3x.o)
+                0x00000f0e                __addsf3x
  .text.avr-libc.fplib
-                0x0000090e        0x8 c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(cmpsf2.o)
-                0x0000090e                __nesf2
-                0x0000090e                __eqsf2
-                0x0000090e                __cmpsf2
-                0x0000090e                __ltsf2
-                0x0000090e                __lesf2
+                0x00000fb4        0x8 c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(cmpsf2.o)
+                0x00000fb4                __nesf2
+                0x00000fb4                __eqsf2
+                0x00000fb4                __cmpsf2
+                0x00000fb4                __ltsf2
+                0x00000fb4                __lesf2
  .text.avr-libc.fplib
-                0x00000916        0xa c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(fixsfsi.o)
-                0x00000916                __fixsfsi
+                0x00000fbc        0x4 c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(divsf3.o)
+                0x00000fbc                __divsf3
  .text.avr-libc.fplib
-                0x00000920       0x58 c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(fixunssfsi.o)
-                0x00000920                __fixunssfsi
+                0x00000fc0       0xcc c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(divsf3x.o)
+                0x00000fd6                __divsf3x
+                0x00000fda                __divsf3_pse
  .text.avr-libc.fplib
-                0x00000978       0x7a c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(floatsisf.o)
-                0x00000978                __floatunsisf
-                0x0000097c                __floatsisf
+                0x0000108c        0xa c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(fixsfsi.o)
+                0x0000108c                __fixsfsi
  .text.avr-libc.fplib
-                0x000009f2       0x48 c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(fp_cmp.o)
-                0x000009f2                __fp_cmp
+                0x00001096       0x58 c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(fixunssfsi.o)
+                0x00001096                __fixunssfsi
  .text.avr-libc.fplib
-                0x00000a3a        0xc c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(fp_inf.o)
-                0x00000a3a                __fp_inf
+                0x000010ee       0x7a c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(floatsisf.o)
+                0x000010ee                __floatunsisf
+                0x000010f2                __floatsisf
  .text.avr-libc.fplib
-                0x00000a46        0x6 c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(fp_nan.o)
-                0x00000a46                __fp_nan
+                0x00001168       0x3e c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(fmin.o)
+                0x00001168                fmin
  .text.avr-libc.fplib
-                0x00000a4c        0xe c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(fp_pscA.o)
-                0x00000a4c                __fp_pscA
+                0x000011a6       0x48 c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(fp_cmp.o)
+                0x000011a6                __fp_cmp
  .text.avr-libc.fplib
-                0x00000a5a        0xe c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(fp_pscB.o)
-                0x00000a5a                __fp_pscB
+                0x000011ee        0xc c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(fp_inf.o)
+                0x000011ee                __fp_inf
  .text.avr-libc.fplib
-                0x00000a68       0x22 c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(fp_round.o)
-                0x00000a68                __fp_round
+                0x000011fa        0x6 c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(fp_nan.o)
+                0x000011fa                __fp_nan
  .text.avr-libc.fplib
-                0x00000a8a       0x44 c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(fp_split3.o)
-                0x00000a8a                __fp_split3
-                0x00000a9a                __fp_splitA
+                0x00001200        0xe c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(fp_pscA.o)
+                0x00001200                __fp_pscA
  .text.avr-libc.fplib
-                0x00000ace        0xe c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(fp_zero.o)
-                0x00000ace                __fp_zero
-                0x00000ad0                __fp_szero
+                0x0000120e        0xe c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(fp_pscB.o)
+                0x0000120e                __fp_pscB
  .text.avr-libc.fplib
-                0x00000adc        0x8 c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(gesf2.o)
-                0x00000adc                __gesf2
-                0x00000adc                __gtsf2
+                0x0000121c       0x22 c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(fp_round.o)
+                0x0000121c                __fp_round
  .text.avr-libc.fplib
-                0x00000ae4        0x4 c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(mulsf3.o)
-                0x00000ae4                __mulsf3
+                0x0000123e       0x44 c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(fp_split3.o)
+                0x0000123e                __fp_split3
+                0x0000124e                __fp_splitA
  .text.avr-libc.fplib
-                0x00000ae8       0xc2 c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(mulsf3x.o)
-                0x00000afc                __mulsf3x
-                0x00000b00                __mulsf3_pse
- .text.libgcc   0x00000baa        0xc c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/avr4\libgcc.a(_tablejump2.o)
-                0x00000baa                __tablejump2__
+                0x00001282        0xe c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(fp_zero.o)
+                0x00001282                __fp_zero
+                0x00001284                __fp_szero
+ .text.avr-libc.fplib
+                0x00001290        0x8 c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(gesf2.o)
+                0x00001290                __gesf2
+                0x00001290                __gtsf2
+ .text.avr-libc.fplib
+                0x00001298        0x4 c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(mulsf3.o)
+                0x00001298                __mulsf3
+ .text.avr-libc.fplib
+                0x0000129c       0xc2 c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libm.a(mulsf3x.o)
+                0x000012b0                __mulsf3x
+                0x000012b4                __mulsf3_pse
+ .text.libgcc   0x0000135e        0xc c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/avr4\libgcc.a(_tablejump2.o)
+                0x0000135e                __tablejump2__
  .text.avr-libc
-                0x00000bb6      0x3a4 c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libc.a(vfprintf_std.o)
-                0x00000bb6                vfprintf
+                0x0000136a      0x3a4 c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libc.a(vfprintf_std.o)
+                0x0000136a                vfprintf
  .text.avr-libc
-                0x00000f5a       0x16 c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libc.a(strnlen_P.o)
-                0x00000f5a                strnlen_P
+                0x0000170e       0x16 c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libc.a(strnlen_P.o)
+                0x0000170e                strnlen_P
  .text.avr-libc
-                0x00000f70       0x16 c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libc.a(strnlen.o)
-                0x00000f70                strnlen
+                0x00001724       0x16 c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libc.a(strnlen.o)
+                0x00001724                strnlen
  .text.avr-libc
-                0x00000f86       0x78 c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libc.a(fputc.o)
-                0x00000f86                fputc
+                0x0000173a       0x78 c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libc.a(fputc.o)
+                0x0000173a                fputc
  .text.avr-libc
-                0x00000ffe       0xbc c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libc.a(ultoa_invert.o)
-                0x00000ffe                __ultoa_invert
+                0x000017b2       0xbc c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libc.a(ultoa_invert.o)
+                0x000017b2                __ultoa_invert
  .text.libgcc.prologue
-                0x000010ba       0x38 c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/avr4\libgcc.a(_prologue.o)
-                0x000010ba                __prologue_saves__
+                0x0000186e       0x38 c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/avr4\libgcc.a(_prologue.o)
+                0x0000186e                __prologue_saves__
  .text.libgcc.prologue
-                0x000010f2       0x36 c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/avr4\libgcc.a(_epilogue.o)
-                0x000010f2                __epilogue_restores__
-                0x00001128                . = ALIGN (0x2)
+                0x000018a6       0x36 c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/avr4\libgcc.a(_epilogue.o)
+                0x000018a6                __epilogue_restores__
+                0x000018dc                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x00001128        0x0 c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/avr4\libgcc.a(_exit.o)
-                0x00001128                _exit
-                0x00001128                exit
+ .fini9         0x000018dc        0x0 c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/avr4\libgcc.a(_exit.o)
+                0x000018dc                _exit
+                0x000018dc                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -701,82 +703,99 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x00001128        0x4 c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/avr4\libgcc.a(_exit.o)
+ .fini0         0x000018dc        0x4 c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/avr4\libgcc.a(_exit.o)
  *(.fini0)
-                0x0000112c                _etext = .
+                0x000018e0                _etext = .
 
-.data           0x00800060       0x4c load address 0x0000112c
+.data           0x00800060       0x4e load address 0x000018e0
                 0x00800060                PROVIDE (__data_start, .)
  *(.data)
  *(.data*)
  .data._ZL9MID_POINT
                 0x00800060        0x1 main.o
+ .data._ZL12ampThreshold
+                0x00800061        0x1 main.o
  .data._ZL8timerTol
-                0x00800061        0x2 main.o
+                0x00800062        0x2 main.o
  .data._ZL8slopeTol
-                0x00800063        0x1 main.o
+                0x00800064        0x1 main.o
  *(.gnu.linkonce.d*)
  *(.rodata)
  *(.rodata*)
  .rodata._ZL10noteSharps
-                0x00800064        0xc src/freqDetect.o
+                0x00800065        0xc src/noteDetection.o
  .rodata._ZL9noteNames
-                0x00800070        0xc src/freqDetect.o
+                0x00800071        0xc src/noteDetection.o
  .rodata._ZL16firstOctaveFreqs
-                0x0080007c       0x30 src/freqDetect.o
+                0x0080007d       0x30 src/noteDetection.o
  *(.gnu.linkonce.r*)
-                0x008000ac                . = ALIGN (0x2)
-                0x008000ac                _edata = .
-                0x008000ac                PROVIDE (__data_end, .)
+                0x008000ae                . = ALIGN (0x2)
+ *fill*         0x008000ad        0x1 
+                0x008000ae                _edata = .
+                0x008000ae                PROVIDE (__data_end, .)
 
-.bss            0x008000ac       0x88
-                0x008000ac                PROVIDE (__bss_start, .)
+.bss            0x008000ae      0x1a8
+                0x008000ae                PROVIDE (__bss_start, .)
  *(.bss)
  *(.bss*)
+ .bss.short_freq_ar_i
+                0x008000ae        0x2 main.o
+                0x008000ae                short_freq_ar_i
+ .bss.short_last_frequencies
+                0x008000b0       0x28 main.o
+                0x008000b0                short_last_frequencies
+ .bss.long_freq_ar_i
+                0x008000d8        0x2 main.o
+                0x008000d8                long_freq_ar_i
+ .bss.long_last_frequencies
+                0x008000da       0xf0 main.o
+                0x008000da                long_last_frequencies
  .bss._ZL11checkMaxAmp
-                0x008000ac        0x1 main.o
+                0x008001ca        0x1 main.o
  .bss._ZL6maxAmp
-                0x008000ad        0x1 main.o
- .bss.ampTimer  0x008000ae        0x2 main.o
-                0x008000ae                ampTimer
+                0x008001cb        0x1 main.o
+ .bss.ampTimer  0x008001cc        0x2 main.o
+                0x008001cc                ampTimer
  .bss._ZL7noMatch
-                0x008000b0        0x1 main.o
+                0x008001ce        0x1 main.o
  .bss._ZL8newSlope
-                0x008000b1        0x2 main.o
+                0x008001cf        0x2 main.o
  .bss._ZL8maxSlope
-                0x008000b3        0x2 main.o
+                0x008001d1        0x2 main.o
+ .bss._ZL9frequency
+                0x008001d3        0x4 main.o
  .bss._ZL5index
-                0x008000b5        0x1 main.o
+                0x008001d7        0x1 main.o
  .bss._ZL6period
-                0x008000b6        0x2 main.o
+                0x008001d8        0x2 main.o
  .bss._ZL10totalTimer
-                0x008000b8        0x2 main.o
+                0x008001da        0x2 main.o
  .bss._ZL5slope
-                0x008000ba       0x14 main.o
+                0x008001dc       0x14 main.o
  .bss._ZL5timer
-                0x008000ce       0x14 main.o
- .bss._ZL4time  0x008000e2        0x2 main.o
+                0x008001f0       0x14 main.o
+ .bss._ZL4time  0x00800204        0x2 main.o
  .bss._ZL8prevData
-                0x008000e4        0x1 main.o
+                0x00800206        0x1 main.o
  .bss._ZL7newData
-                0x008000e5        0x1 main.o
+                0x00800207        0x1 main.o
  .bss._ZL8clipping
-                0x008000e6        0x1 main.o
- .bss.displ     0x008000e7       0x3e main.o
-                0x008000e7                displ
+                0x00800208        0x1 main.o
+ .bss.displ     0x00800209       0x3e main.o
+                0x00800209                displ
  .bss.currentNote
-                0x00800125        0xf main.o
-                0x00800125                currentNote
+                0x00800247        0xf main.o
+                0x00800247                currentNote
  *(COMMON)
-                0x00800134                PROVIDE (__bss_end, .)
-                0x0000112c                __data_load_start = LOADADDR (.data)
-                0x00001178                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x00800256                PROVIDE (__bss_end, .)
+                0x000018e0                __data_load_start = LOADADDR (.data)
+                0x0000192e                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x00800134        0x0
+.noinit         0x00800256        0x0
                 [!provide]                PROVIDE (__noinit_start, .)
  *(.noinit*)
                 [!provide]                PROVIDE (__noinit_end, .)
-                0x00800134                _end = .
+                0x00800256                _end = .
                 [!provide]                PROVIDE (__heap_start, .)
 
 .eeprom         0x00810000        0x0
@@ -821,7 +840,7 @@ END GROUP
  .comment       0x00000000       0x30 main.o
                                  0x31 (size before relaxing)
  .comment       0x00000030       0x31 src/Display.o
- .comment       0x00000030       0x31 src/freqDetect.o
+ .comment       0x00000030       0x31 src/noteDetection.o
  .comment       0x00000030       0x31 src/light_ws2812.o
  .comment       0x00000030       0x2c c:/avr8-gnu/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr4\libc.a(vfprintf_std.o)
                                  0x2d (size before relaxing)
@@ -854,62 +873,62 @@ END GROUP
  .debug_aranges
                 0x00000050       0x80 src/Display.o
  .debug_aranges
-                0x000000d0       0x30 src/freqDetect.o
+                0x000000d0       0x30 src/noteDetection.o
  .debug_aranges
                 0x00000100       0x40 src/light_ws2812.o
 
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000     0x24c0
+.debug_info     0x00000000     0x2642
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000      0x48c C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.3.300/gcc/dev/atmega8/avr4/crtatmega8.o
- .debug_info    0x0000048c      0xad0 main.o
- .debug_info    0x00000f5c      0xd29 src/Display.o
- .debug_info    0x00001c85      0x318 src/freqDetect.o
- .debug_info    0x00001f9d      0x523 src/light_ws2812.o
+ .debug_info    0x0000048c      0xc0c main.o
+ .debug_info    0x00001098      0xd6f src/Display.o
+ .debug_info    0x00001e07      0x318 src/noteDetection.o
+ .debug_info    0x0000211f      0x523 src/light_ws2812.o
 
-.debug_abbrev   0x00000000      0xe26
+.debug_abbrev   0x00000000      0xe49
  *(.debug_abbrev)
  .debug_abbrev  0x00000000      0x44e C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.3.300/gcc/dev/atmega8/avr4/crtatmega8.o
- .debug_abbrev  0x0000044e      0x3a7 main.o
- .debug_abbrev  0x000007f5      0x364 src/Display.o
- .debug_abbrev  0x00000b59      0x16e src/freqDetect.o
- .debug_abbrev  0x00000cc7      0x15f src/light_ws2812.o
+ .debug_abbrev  0x0000044e      0x3d7 main.o
+ .debug_abbrev  0x00000825      0x357 src/Display.o
+ .debug_abbrev  0x00000b7c      0x16e src/noteDetection.o
+ .debug_abbrev  0x00000cea      0x15f src/light_ws2812.o
 
-.debug_line     0x00000000      0xbb6
+.debug_line     0x00000000      0xc4b
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x00000000      0x109 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.3.300/gcc/dev/atmega8/avr4/crtatmega8.o
- .debug_line    0x00000109      0x2fd main.o
- .debug_line    0x00000406      0x3d7 src/Display.o
- .debug_line    0x000007dd      0x18a src/freqDetect.o
- .debug_line    0x00000967      0x24f src/light_ws2812.o
+ .debug_line    0x00000109      0x389 main.o
+ .debug_line    0x00000492      0x3da src/Display.o
+ .debug_line    0x0000086c      0x190 src/noteDetection.o
+ .debug_line    0x000009fc      0x24f src/light_ws2812.o
 
 .debug_frame    0x00000000      0x448
  *(.debug_frame)
  .debug_frame   0x00000000      0x108 main.o
  .debug_frame   0x00000108      0x1fc src/Display.o
- .debug_frame   0x00000304       0xe0 src/freqDetect.o
+ .debug_frame   0x00000304       0xe0 src/noteDetection.o
  .debug_frame   0x000003e4       0x64 src/light_ws2812.o
 
-.debug_str      0x00000000      0xb33
+.debug_str      0x00000000      0xb98
  *(.debug_str)
  .debug_str     0x00000000      0x17a C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.3.300/gcc/dev/atmega8/avr4/crtatmega8.o
- .debug_str     0x0000017a      0x73a main.o
-                                0x7d3 (size before relaxing)
- .debug_str     0x000008b4       0x60 src/Display.o
-                                0x5f9 (size before relaxing)
- .debug_str     0x00000914       0x82 src/freqDetect.o
-                                0x2b5 (size before relaxing)
- .debug_str     0x00000996      0x19d src/light_ws2812.o
+ .debug_str     0x0000017a      0x7b1 main.o
+                                0x849 (size before relaxing)
+ .debug_str     0x0000092b       0x80 src/Display.o
+                                0x626 (size before relaxing)
+ .debug_str     0x000009ab       0x85 src/noteDetection.o
+                                0x2b8 (size before relaxing)
+ .debug_str     0x00000a30      0x168 src/light_ws2812.o
                                 0x27e (size before relaxing)
 
-.debug_loc      0x00000000     0x1996
+.debug_loc      0x00000000     0x1a13
  *(.debug_loc)
- .debug_loc     0x00000000      0x2c8 main.o
- .debug_loc     0x000002c8      0xac7 src/Display.o
- .debug_loc     0x00000d8f      0x4d2 src/freqDetect.o
- .debug_loc     0x00001261      0x735 src/light_ws2812.o
+ .debug_loc     0x00000000      0x345 main.o
+ .debug_loc     0x00000345      0xac7 src/Display.o
+ .debug_loc     0x00000e0c      0x4d2 src/noteDetection.o
+ .debug_loc     0x000012de      0x735 src/light_ws2812.o
 
 .debug_macinfo
  *(.debug_macinfo)
@@ -933,7 +952,7 @@ END GROUP
  *(.debug_ranges)
  .debug_ranges  0x00000000       0x58 main.o
  .debug_ranges  0x00000058       0x88 src/Display.o
- .debug_ranges  0x000000e0       0x70 src/freqDetect.o
+ .debug_ranges  0x000000e0       0x70 src/noteDetection.o
  .debug_ranges  0x00000150       0x30 src/light_ws2812.o
 
 .debug_macro

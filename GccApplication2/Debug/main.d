@@ -13,8 +13,8 @@ main.d main.o: .././main.cpp c:\avr8-gnu\avr\include\math.h \
  c:\avr8-gnu\avr\include\avr\version.h c:\avr8-gnu\avr\include\avr\fuse.h \
  c:\avr8-gnu\avr\include\avr\lock.h ../include/config.h \
  c:\avr8-gnu\avr\include\util\delay.h \
- c:\avr8-gnu\avr\include\util\delay_basic.h ../include/freqDetect.h \
- ../include/Display.h ../include/config.h ../include/freqDetect.h \
+ c:\avr8-gnu\avr\include\util\delay_basic.h ../include/noteDetection.h \
+ ../include/Display.h ../include/config.h ../include/noteDetection.h \
  ../include/light_ws2812.h ../include/serial.h \
  c:\avr8-gnu\avr\include\string.h
 
@@ -58,13 +58,13 @@ c:\avr8-gnu\avr\include\util\delay.h:
 
 c:\avr8-gnu\avr\include\util\delay_basic.h:
 
-../include/freqDetect.h:
+../include/noteDetection.h:
 
 ../include/Display.h:
 
 ../include/config.h:
 
-../include/freqDetect.h:
+../include/noteDetection.h:
 
 ../include/light_ws2812.h:
 

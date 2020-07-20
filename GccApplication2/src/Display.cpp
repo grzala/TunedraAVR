@@ -7,6 +7,7 @@ void Display::initialize() {
 	DISPLAY_PORT_LED_CONFIG |=_BV(ws2812_pin);
 	DISPLAY_PORT_CONFIG |= 0xFF;
 
+
 	this->clean();
 	this->lightSharp(false);
 	this->cleanIndicator();
@@ -39,25 +40,25 @@ void Display::light(unsigned int instruction) {
 	
 	this->clean();
 
-	if (instruction & (1 << midPin_)) {
+	if (instruction & (1 << DBN::mid)) {
 		this->write(midPin_);
 	}
-	if (instruction & (1 << upPin_)) {
+	if (instruction & (1 << DBN::up)) {
 		this->write(upPin_);
 	}
-	if (instruction & (1 << upRPin_)) {
+	if (instruction & (1 << DBN::upR)) {
 		this->write(upRPin_);
 	}
-	if (instruction & (1 << downRPin_)) {
+	if (instruction & (1 << DBN::downR)) {
 		this->write(downRPin_);
 	}
-	if (instruction & (1 << downPin_)) {
+	if (instruction & (1 << DBN::down)) {
 		this->write(downPin_);
 	}
-	if (instruction & (1 << downLPin_)) {
+	if (instruction & (1 << DBN::downL)) {
 		this->write(downLPin_);
 	}
-	if (instruction & (1 << upLPin_)) {
+	if (instruction & (1 << DBN::upL)) {
 		this->write(upLPin_);
 	}
 	
@@ -155,7 +156,7 @@ void Display::lightIndicator(const Note* note, double currentFreq) {
 	ws2812_sendarray((uint8_t *)this->indicatorBar, INDICATOR_BAR_LEN*3);
 }
 
-void Display::displayNote(double frequency, const Note* note) {
+void Display::displayNote(const Note* note, double frequency) {
 	DI di = DI::A;
 	switch(note->note) {
 		case 'A':

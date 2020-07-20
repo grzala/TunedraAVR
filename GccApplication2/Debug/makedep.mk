@@ -6,7 +6,9 @@ main.cpp
 
 src\Display.cpp
 
-src\freqDetect.cpp
+src\noteDetection.cpp
+
+src\frequencyDetection.cpp
 
 src\light_ws2812.c
 

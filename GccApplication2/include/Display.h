@@ -14,7 +14,19 @@
 
 #include "config.h"
 #include <math.h>
-#include "freqDetect.h"
+#include "noteDetection.h"
+
+// Map display segments to int
+typedef enum {
+	mid = 0,
+	up = 1,
+	upR = 2,
+	downR = 3,
+	down = 4,
+	downL = 5,
+	upL = 6,
+} DisplBarName;
+typedef DisplBarName DBN;
 
 // Instructions for displaying letters
 typedef enum {
@@ -78,7 +90,7 @@ class Display {
 	void light(unsigned int instruction);
 	void lightSharp(bool light);
 	void lightIndicator(const Note* note, double currentFreq);
-	void displayNote(double frequency, const Note* note);
+	void displayNote(const Note* note, double frequency);
 	void resetIfTime();
 
 	private:
@@ -95,7 +107,7 @@ class Display {
 
 	
 	// Adjust those to alter light. LEDs are lighted according to three linear functions intersecting
-	static constexpr double MAX_ANALOG {200.0}; // LEDS do not need to go any higher
+	static constexpr double MAX_ANALOG {MAX_ANALOG_LED_VAL}; // LEDS do not need to go any higher
 	
 	static constexpr double xBoundFactors[LEDFunctions_Len] = { 0.035, 0.15, 0.35 };
 	static constexpr double yBoundFactors[LEDFunctions_Len] = { 0.4, 0.05, 0.0 };

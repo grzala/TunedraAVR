@@ -41,7 +41,8 @@ SUBDIRS :=  \
 C_SRCS +=  \
 ../main.cpp \
 ../src/Display.cpp \
-../src/freqDetect.cpp \
+../src/noteDetection.cpp \
+../src/frequencyDetection.cpp \
 ../src/light_ws2812.c \
 ../src/serial.cpp
 
@@ -55,28 +56,32 @@ ASM_SRCS +=
 OBJS +=  \
 main.o \
 src/Display.o \
-src/freqDetect.o \
+src/noteDetection.o \
+src/frequencyDetection.o \
 src/light_ws2812.o \
 src/serial.o
 
 OBJS_AS_ARGS +=  \
 main.o \
 src/Display.o \
-src/freqDetect.o \
+src/noteDetection.o \
+src/frequencyDetection.o \
 src/light_ws2812.o \
 src/serial.o
 
 C_DEPS +=  \
 main.d \
 src/Display.d \
-src/freqDetect.d \
+src/noteDetection.d \
+src/frequencyDetection.d \
 src/light_ws2812.d \
 src/serial.d
 
 C_DEPS_AS_ARGS +=  \
 main.d \
 src/Display.d \
-src/freqDetect.d \
+src/noteDetection.d \
+src/frequencyDetection.d \
 src/light_ws2812.d \
 src/serial.d
 
@@ -108,7 +113,14 @@ src/Display.o: ../src/Display.cpp
 	@echo Finished building: $<
 	
 
-src/freqDetect.o: ../src/freqDetect.cpp
+src/noteDetection.o: ../src/noteDetection.cpp
+	@echo Building file: $<
+	@echo Invoking: AVR8/GNU C Compiler : 5.4.0
+	$(QUOTE)C:\avr8-gnu\bin\avr-g++.exe$(QUOTE) -funsigned-char -funsigned-bitfields -DDEBUG  -I"../../../../../../../../avr8-gnu/avr/include" -I"../include"  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega8 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\gcc\dev\atmega8" -c -std=c++11 -v -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+src/frequencyDetection.o: ../src/frequencyDetection.cpp
 	@echo Building file: $<
 	@echo Invoking: AVR8/GNU C Compiler : 5.4.0
 	$(QUOTE)C:\avr8-gnu\bin\avr-g++.exe$(QUOTE) -funsigned-char -funsigned-bitfields -DDEBUG  -I"../../../../../../../../avr8-gnu/avr/include" -I"../include"  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega8 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\gcc\dev\atmega8" -c -std=c++11 -v -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 

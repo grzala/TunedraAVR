@@ -9,7 +9,7 @@
 #define DELAY _delay_ms
 #include <avr/interrupt.h>
 
-#include "freqDetect.h"
+#include "noteDetection.h"
 #include "Display.h"
 
 
@@ -158,22 +158,6 @@ ISR(ADC_vect) {//when new ADC value ready
 		maxAmp = 0;
 	}
 	
-	//PORTD = 0;
-	//if (checkMaxAmp > ampThreshold) /* && checkMaxAmp < maxAmpThreshold) */ {
-		//frequency = 38462.0/float(period);//calculate frequency timer rate/period
-		//if (frequency > 40) {
-			//PORTD |= (1 << 0);
-		//}
-		//if (frequency > 50) {
-			//PORTD |= (1 << 1);
-		//}
-		//if (frequency > 170) {
-			//PORTD |= (1 << 2);
-		//}
-		//if (frequency > 190) {
-			//PORTD |= (1 << 3);
-		//}
-	//}
 }
 
 
@@ -208,67 +192,67 @@ double get_av(double* ar, int len) {
 }
 
 
-//int main() {
-	//setup();
-	//USART_Init ( MYUBRR );
-	//while(1) {
-		//float voltage = newData * (5.0 / 1023.0);
-		//if (checkMaxAmp > ampThreshold) /* && checkMaxAmp < maxAmpThreshold) */ {
-			//frequency = 38462.0/float(period);//calculate frequency timer rate/period
-			//
-			//// Ignore noise and big swings
-			//long_last_frequencies[long_freq_ar_i++] = frequency;
-			//if (long_freq_ar_i >= LONG_FREQ_AR_LEN) long_freq_ar_i = 0;
-			//float long_average_freq = get_av(long_last_frequencies, LONG_FREQ_AR_LEN);
-			//float diff = abs(long_average_freq - frequency);
-			//float max_diff = long_average_freq * FREQ_MAX_DIFF;
-//
-			//if (diff < max_diff){
-				//// get average freq
-				//short_last_frequencies[short_freq_ar_i++] = frequency;
-				//if (short_freq_ar_i >= SHORT_FREQ_AR_LEN) short_freq_ar_i = 0;
-				//float short_average_freq = get_av(short_last_frequencies, SHORT_FREQ_AR_LEN);
-//
-				//getNoteByFreq(&currentNote, short_average_freq); // RECOGNIZE NOTE
-				//if (currentNote.valid) {
-					////printFreqNote(short_average_freq, currentNote);
-					////displ->displayNote(currentNote, short_average_freq); // DISPLAY NOTE
-					//
-					//displ.lightIndicator(&currentNote, short_average_freq);
-				//}
-			//}
-			//
-		//}
-		//
-		//DELAY(10);
-	//}
-	//
-	//return 0;
-//}
-
-int v = 0;
-
-
-
-int main(void)
-{
-	//USART_Init ( MYUBRR );
-	double mockFreq = 41.1;
+int main() {
 	setup();
+	//USART_Init ( MYUBRR );
+	while(1) {
+		float voltage = newData * (5.0 / 1023.0);
+		if (checkMaxAmp > ampThreshold) /* && checkMaxAmp < maxAmpThreshold) */ {
+			frequency = 38462.0/float(period);//calculate frequency timer rate/period
+			
+			// Ignore noise and big swings
+			long_last_frequencies[long_freq_ar_i++] = frequency;
+			if (long_freq_ar_i >= LONG_FREQ_AR_LEN) long_freq_ar_i = 0;
+			float long_average_freq = get_av(long_last_frequencies, LONG_FREQ_AR_LEN);
+			float diff = abs(long_average_freq - frequency);
+			float max_diff = long_average_freq * FREQ_MAX_DIFF;
+
+			if (diff < max_diff){
+				// get average freq
+				short_last_frequencies[short_freq_ar_i++] = frequency;
+				if (short_freq_ar_i >= SHORT_FREQ_AR_LEN) short_freq_ar_i = 0;
+				float short_average_freq = get_av(short_last_frequencies, SHORT_FREQ_AR_LEN);
+
+				getNoteByFreq(&currentNote, short_average_freq); // RECOGNIZE NOTE
+				if (currentNote.valid) {
+					displ.displayNote(&currentNote, short_average_freq); // DISPLAY NOTE
+					//displ.light((DI::E));
+				}
+			}
+			
+		}
+		
+		DELAY(10);
+	}
 	
-	getNoteByFreq(&currentNote, mockFreq);
+	return 0;
+}
+
+//int v = 0;
+//int main(void)
+//{
+	////USART_Init ( MYUBRR );
+	//double mockFreq = 41.1;
+	//setup();
+	//
+	//getNoteByFreq(&currentNote, mockFreq);
 	//displ.lightIndicator(&currentNote, mockFreq);
-	displ.light(DI::C);
-	
+	//
 	//while(1)
 	//{
-		//getNoteByFreq(&currentNote, mockFreq);
-		//displ.lightIndicator(&currentNote, mockFreq);
-		////test(v);
-		//mockFreq += 5;
-		//if (mockFreq > 250) {
-			//mockFreq = 16;
-		//}
-		//_delay_ms(20);
+		//displ.light((DI::A));
+		//_delay_ms(1000);;
+		//displ.light((DI::B));
+		//_delay_ms(1000);
+		//displ.light((DI::C));
+		//_delay_ms(1000);
+		//displ.light((DI::D));
+		//_delay_ms(1000);
+		//displ.light((DI::E));
+		//_delay_ms(1000);
+		//displ.light((DI::F));
+		//_delay_ms(1000);
+		//displ.light((DI::G));
+		//_delay_ms(1000);
 	//}
-}
+//}

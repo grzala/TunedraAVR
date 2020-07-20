@@ -5,7 +5,7 @@
  *  Author: mpana
  */ 
 
-#include "freqDetect.h"
+#include "noteDetection.h"
 
 
 bool isFreqLegal(double freq) {
