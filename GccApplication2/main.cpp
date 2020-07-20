@@ -25,7 +25,7 @@ void setup() {
 	//Serial.begin(115200);
 	
 	// (mid, up, upright, downright, down, leftdown, rightdown, sharp, led data pin)
-	displ.initialize(3, 19, 18, 17, 7, 4, 2, 16);
+	displ.initialize();
 	
 	cli();//diable interrupts
 	
@@ -252,19 +252,23 @@ int v = 0;
 
 int main(void)
 {
-	USART_Init ( MYUBRR );
-	double mockFreq = 34.1;
+	//USART_Init ( MYUBRR );
+	double mockFreq = 41.1;
 	setup();
 	
-	while(1)
-	{
-		getNoteByFreq(&currentNote, mockFreq);
-		displ.lightIndicator(&currentNote, mockFreq);
-		//test(v);
-		mockFreq += 5;
-		if (mockFreq > 250) {
-			mockFreq = 16;
-		}
-		_delay_ms(20);
-	}
+	getNoteByFreq(&currentNote, mockFreq);
+	//displ.lightIndicator(&currentNote, mockFreq);
+	displ.light(DI::C);
+	
+	//while(1)
+	//{
+		//getNoteByFreq(&currentNote, mockFreq);
+		//displ.lightIndicator(&currentNote, mockFreq);
+		////test(v);
+		//mockFreq += 5;
+		//if (mockFreq > 250) {
+			//mockFreq = 16;
+		//}
+		//_delay_ms(20);
+	//}
 }

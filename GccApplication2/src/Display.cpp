@@ -2,35 +2,10 @@
 
 
 // IMPLEMENT CLASS DISPLAY
-void Display::initialize(int midPin, int upPin, int upRPin, int downRPin,
-				int downPin, int downLPin, int UpLPin, int sharpPin) {
+void Display::initialize() {
 					
-	DISPLAY_PORT_CONFIG |=_BV(ws2812_pin);
-	
-	//pinMode(midPin, OUTPUT);
-	//pinMode(upPin, OUTPUT);
-	//pinMode(upRPin, OUTPUT);
-	//pinMode(downRPin, OUTPUT);
-	//pinMode(downPin, OUTPUT);
-	//pinMode(downLPin, OUTPUT);
-	//pinMode(UpLPin, OUTPUT);
-	//
-	//pinMode(sharpPin, OUTPUT);
-	//
-	//pinMode(rLED0, OUTPUT);
-	//pinMode(gLED, OUTPUT);
-	//pinMode(rLED1, OUTPUT);
-	
-	this->pin_array[0] = midPin;
-	this->pin_array[1] = upPin;
-	this->pin_array[2] = upRPin;
-	this->pin_array[3] = downRPin;
-	this->pin_array[4] = downPin;
-	this->pin_array[5] = downLPin;
-	this->pin_array[6] = UpLPin;
-	
-	this->sharpPin = sharpPin;
-
+	DISPLAY_PORT_LED_CONFIG |=_BV(ws2812_pin);
+	DISPLAY_PORT_CONFIG |= 0xFF;
 
 	this->clean();
 	this->lightSharp(false);
@@ -38,13 +13,7 @@ void Display::initialize(int midPin, int upPin, int upRPin, int downRPin,
 }
 
 void Display::clean() {
-	//digitalWrite(this->pin_array[0], LOW);
-	//digitalWrite(this->pin_array[1], LOW);
-	//digitalWrite(this->pin_array[2], LOW);
-	//digitalWrite(this->pin_array[3], LOW);
-	//digitalWrite(this->pin_array[4], LOW);
-	//digitalWrite(this->pin_array[5], LOW);
-	//digitalWrite(this->pin_array[6], LOW);
+	DISPLAY_PORT_OUTPUT = 0x00;
 	this->currentlyDisplaying = 0;
 }
 
@@ -57,12 +26,8 @@ void Display::cleanIndicator() {
 	ws2812_sendarray((uint8_t *)this->indicatorBar, INDICATOR_BAR_LEN*3);
 }
 
-void Display::write(DBN pin) {
-	this->write(static_cast<unsigned int>(pin));
-}
-
 void Display::write(unsigned int pin) {
-	//digitalWrite(this->pin_array[pin], HIGH);
+	DISPLAY_PORT_OUTPUT |= _BV(pin);
 }
 
 void Display::light(DI instruction) {
@@ -74,38 +39,38 @@ void Display::light(unsigned int instruction) {
 	
 	this->clean();
 
-	if (instruction & (1 << DBN::mid)) {
-		this->write(DBN::mid);
+	if (instruction & (1 << midPin_)) {
+		this->write(midPin_);
 	}
-	if (instruction & (1 << DBN::up)) {
-		this->write(DBN::up);
+	if (instruction & (1 << upPin_)) {
+		this->write(upPin_);
 	}
-	if (instruction & (1 << DBN::upR)) {
-		this->write(DBN::upR);
+	if (instruction & (1 << upRPin_)) {
+		this->write(upRPin_);
 	}
-	if (instruction & (1 << DBN::downR)) {
-		this->write(DBN::downR);
+	if (instruction & (1 << downRPin_)) {
+		this->write(downRPin_);
 	}
-	if (instruction & (1 << DBN::down)) {
-		this->write(DBN::down);
+	if (instruction & (1 << downPin_)) {
+		this->write(downPin_);
 	}
-	if (instruction & (1 << DBN::downL)) {
-		this->write(DBN::downL);
+	if (instruction & (1 << downLPin_)) {
+		this->write(downLPin_);
 	}
-	if (instruction & (1 << DBN::upL)) {
-		this->write(DBN::upL);
+	if (instruction & (1 << upLPin_)) {
+		this->write(upLPin_);
 	}
 	
 	this->currentlyDisplaying = instruction;
 }
 
 void Display::lightSharp(bool light) {
-	//if (light) {
-		//digitalWrite (this->sharpPin, HIGH);
-		//} else {
-		//digitalWrite (this->sharpPin, LOW);
-	//}
-	//this->currentSharpPinStatus = light;
+	if (light) {
+		DISPLAY_PORT_OUTPUT |= _BV(sharpPin_);
+	} else {
+		DISPLAY_PORT_OUTPUT &= ~_BV(sharpPin_);
+	}
+	this->currentSharpPinStatus = light;
 }
 
 
@@ -127,7 +92,6 @@ void Display::printCacheInfo() {
 	//Serial.println();
 }
 
-#include "serial.h"
 // build a and b coefficients for linear functions
 void Display::rebuildCache(double max_distance) {
 	this->ledFCache.xBounds[0] = this->xBoundFactors[0] * max_distance;

@@ -10,9 +10,7 @@ src/Display.d src/Display.o: ../src/Display.cpp ../include/Display.h \
  c:\avr8-gnu\avr\include\avr\common.h \
  c:\avr8-gnu\avr\include\avr\version.h c:\avr8-gnu\avr\include\avr\fuse.h \
  c:\avr8-gnu\avr\include\avr\lock.h \
- c:\avr8-gnu\avr\include\avr\interrupt.h ../include/serial.h \
- c:\avr8-gnu\avr\include\string.h c:\avr8-gnu\avr\include\stdio.h \
- c:\avr8-gnu\lib\gcc\avr\5.4.0\include\stdarg.h
+ c:\avr8-gnu\avr\include\avr\interrupt.h
 
 ../include/Display.h:
 
@@ -51,11 +49,3 @@ c:\avr8-gnu\avr\include\avr\fuse.h:
 c:\avr8-gnu\avr\include\avr\lock.h:
 
 c:\avr8-gnu\avr\include\avr\interrupt.h:
-
-../include/serial.h:
-
-c:\avr8-gnu\avr\include\string.h:
-
-c:\avr8-gnu\avr\include\stdio.h:
-
-c:\avr8-gnu\lib\gcc\avr\5.4.0\include\stdarg.h:

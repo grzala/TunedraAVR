@@ -16,18 +16,6 @@
 #include <math.h>
 #include "freqDetect.h"
 
-// Map display segments to int
-typedef enum {
-	mid = 0,
-	up = 1,
-	upR = 2,
-	downR = 3,
-	down = 4,
-	downL = 5,
-	upL = 6,
-} DisplBarName;
-typedef DisplBarName DBN;
-
 // Instructions for displaying letters
 typedef enum {
 	A = 0b1101111,
@@ -46,13 +34,22 @@ typedef enum {
 } DisplInstruction;
 typedef DisplInstruction DI;
 
+#ifndef DISPLAY_PORT_LED_OUTPUT
+# warning "DISPLAY PORT LED  NOT CONFIGURED"
+#define DISPLAY_PORT_LED_OUTPUT PORTB
+#endif
+#ifndef DISPLAY_PORT_LED_CONFIG
+# warning "DISPLAY PORT LED  NOT CONFIGURED"
+#define DISPLAY_PORT_LED_CONFIG DDRB
+#endif
+
 #ifndef DISPLAY_PORT_OUTPUT
 # warning "DISPLAY PORT NOT CONFIGURED"
-#define DISPLAY_PORT_OUTPUT PORTB
+#define DISPLAY_PORT_LED_OUTPUT PORTD
 #endif
 #ifndef DISPLAY_PORT_CONFIG
 # warning "DISPLAY PORT NOT CONFIGURED"
-#define DISPLAY_PORT_CONFIG DDRB
+#define DISPLAY_PORT_LED_CONFIG DDRD
 #endif
 
 
@@ -75,8 +72,7 @@ class Display {
 	public:
 	static const int LEDFunctions_Len = 3; // 3 linear functions will help determine LED brightness
 	
-	void initialize(int midPin, int upPin, int upRPin, int downRPin,
-			int downPin, int downLPin, int UpLPin, int sharpPin);
+	void initialize();
 	void clean();
 	void light(DI instruction);
 	void light(unsigned int instruction);
@@ -87,13 +83,10 @@ class Display {
 
 	private:
 	void cleanIndicator();
-	void write(DBN pin);
 	void write(unsigned int pin);
 	
 	
-	int pin_array[7];
 	unsigned int currentlyDisplaying = 0;
-	int sharpPin;
 	bool currentSharpPinStatus = false;
 	cRGB indicatorBar[INDICATOR_BAR_LEN];
 	
