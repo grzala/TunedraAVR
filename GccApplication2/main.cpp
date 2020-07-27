@@ -39,7 +39,7 @@ void setup() {
 	ADMUX |= (1 << ADLAR); //left align the ADC value- so we can read highest 8 bits from ADCH register only
 	
 	// 0b11101100
-	ADCSRA |= (1 << ADPS2); //set ADC clock with 16 prescaler- 8mHz/16=500kHz
+	ADCSRA |= (1 << ADPS2);// | (1 << ADPS0); //set ADC clock with 16 prescaler- 8mHz/16=500kHz
 	ADCSRA |= (1 << ADFR); //enabble auto trigger
 	ADCSRA |= (1 << ADIE); //enable interrupts when measurement complete
 	ADCSRA |= (1 << ADEN); //enable ADC
@@ -82,7 +82,7 @@ static volatile char ampThreshold = 16;//raise if you have a very noisy signal
 
 static volatile const char MID_POINT = 127; //2.5V
 
-int vala = -1;
+static volatile unsigned int ticks = 0;
 
 void reset(){//clean out some variables
 	index = 0;//reset index
@@ -91,6 +91,7 @@ void reset(){//clean out some variables
 }
 
 ISR(ADC_vect) {//when new ADC value ready
+	++ticks;
 	//return; /////////////////////////////////// COMMENT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	prevData = newData;//store previous value
 	newData = ADCH;//get value from A0
@@ -117,6 +118,10 @@ ISR(ADC_vect) {//when new ADC value ready
 					totalTimer+=timer[i];
 				}
 				period = totalTimer;//set period
+				if (checkMaxAmp > ampThreshold) {
+					USART_Transmit_int((int)(FREQ_SAMPLING_RATE/float(period)*100.0));
+					USART_Println();
+				}
 				periodReady = true;
 				//reset new zero index values to compare with
 				timer[0] = timer[index];
@@ -173,10 +178,10 @@ void checkClipping(){//manage clipping indication
 // --------------------------------------------------------------- END PHYSICS -----------------------------------------------------------------------------
 
 // For normalizing huge and short deviations
-const int LONG_FREQ_AR_LEN = 35;
+const int LONG_FREQ_AR_LEN = 25;
 double long_last_frequencies[LONG_FREQ_AR_LEN];
 int long_freq_ar_i = 0;
-const double FREQ_MAX_DIFF = 0.15f;
+const double FREQ_MAX_DIFF = 0.2f;
 
 // For normalizing small short deviations
 const int SHORT_FREQ_AR_LEN = 10;
@@ -256,49 +261,55 @@ int main() {
 					}
 				
 				
-					double sd = calculateSD(long_last_frequencies, LONG_FREQ_AR_LEN);
-					USART_Transmit_int((int)(sd*100.0));
-					USART_Transmit(' ');
-					USART_Transmit_int((int)(frequency*100.0));
-					USART_Transmit(' ');
-					USART_Transmit_int((int)(short_average_freq*100.0));
-					USART_Transmit(' ');
-					USART_Println();
+					//double sd = calculateSD(long_last_frequencies, LONG_FREQ_AR_LEN);
+					//USART_Transmit_int((int)(sd*100.0));
+					//USART_Transmit(' ');
+					//USART_Transmit_int((int)(frequency*100.0));
+					//USART_Transmit(' ');
+					//USART_Transmit_int((int)(short_average_freq*100.0));
+					//USART_Transmit(' ');
+					//USART_Transmit_int((int)(period));
+					//USART_Transmit(' ');
+					//USART_Println();
 				}
 			}
 		} 
 		
-		_delay_ms(10);
+		_delay_ms(5);
 	}
 	
 	return 0;
 }
 
-//int v = 0;
 //int main(void)
 //{
-	////USART_Init ( MYUBRR );
-	//double mockFreq = 41.1;
 	//setup();
+	//USART_Init ( MYUBRR );
+	//USART_Transmit('a');
 	//
-	//getNoteByFreq(&currentNote, mockFreq);
-	//displ.lightIndicator(&currentNote, mockFreq);
-	//
-	//while(1)
+	//OCR2 = 62;
+	//TCCR2 |= (1 << WGM21);
+	//// Set to CTC Mode
+	//TIMSK |= (1 << OCIE2);
+	////Set interrupt on compare match
+	//TCCR2 |= (1 << CS21);
+	//// set prescaler to 64 and starts PWM
+	//sei();
+	//// enable interrupts
+	//while (1);
 	//{
-		//displ.light((DI::A));
-		//_delay_ms(1000);;
-		//displ.light((DI::B));
-		//_delay_ms(1000);
-		//displ.light((DI::C));
-		//_delay_ms(1000);
-		//displ.light((DI::D));
-		//_delay_ms(1000);
-		//displ.light((DI::E));
-		//_delay_ms(1000);
-		//displ.light((DI::F));
-		//_delay_ms(1000);
-		//displ.light((DI::G));
-		//_delay_ms(1000);
+		//// we have a working timer
+	//}
+//}
+//
+//static volatile int x = 0;
+//ISR (TIMER2_COMP_vect)
+//{
+	//++x;
+	//if (x >= 16000) {
+		//USART_Transmit_unsigned_int(ticks);
+		//USART_Println();
+		//x = 0;
+		//ticks = 0;
 	//}
 //}

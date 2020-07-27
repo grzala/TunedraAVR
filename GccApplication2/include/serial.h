@@ -18,6 +18,7 @@ void USART_Transmit (unsigned char data);
 void USART_Transmit_ar (char* data);
 void USART_Transmit_ar_ln (char* data);
 void USART_Transmit_int (int data);
+void USART_Transmit_unsigned_int (unsigned int data);
 void USART_Println();
 
 #endif // SERIAL_H

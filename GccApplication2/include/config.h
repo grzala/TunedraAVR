@@ -29,7 +29,10 @@
 #define upLPin_ 0
 #define sharpPin_ 7
 
-#define FREQ_SAMPLING_RATE 38462.0
+// #define FREQ_SAMPLING_RATE 38462.0 ????????????
+//#define FREQ_SAMPLING_RATE 42798.0 // 8 prescaler
+#define FREQ_SAMPLING_RATE 38762.0 // 16 prescaler
+//#define FREQ_SAMPLING_RATE 19834.0 // 32 prescaler
 
 
 #endif /* CONFIG_H_ */

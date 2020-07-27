@@ -31,8 +31,14 @@ void USART_Transmit_ar_ln (char* data) {
 	USART_Transmit('\n');
 }
 
+void USART_Transmit_unsigned_int (unsigned int data) {
+	char fstr[30];
+	sprintf(fstr, "%u", data);
+	USART_Transmit_ar(fstr);
+}
+
 void USART_Transmit_int (int data) {
-	char fstr[15];
+	char fstr[30];
 	sprintf(fstr, "%i", data);
 	USART_Transmit_ar(fstr);
 }
