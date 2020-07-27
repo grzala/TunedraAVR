@@ -36,3 +36,8 @@ void USART_Transmit_int (int data) {
 	sprintf(fstr, "%i", data);
 	USART_Transmit_ar(fstr);
 }
+
+void USART_Println() {
+	USART_Transmit('\r');
+	USART_Transmit('\n');
+}

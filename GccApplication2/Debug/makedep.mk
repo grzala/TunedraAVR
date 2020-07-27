@@ -8,8 +8,6 @@ src\Display.cpp
 
 src\noteDetection.cpp
 
-src\frequencyDetection.cpp
-
 src\light_ws2812.c
 
 src\serial.cpp

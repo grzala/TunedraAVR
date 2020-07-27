@@ -91,7 +91,7 @@ class Display {
 	void lightSharp(bool light);
 	void lightIndicator(const Note* note, double currentFreq);
 	void displayNote(const Note* note, double frequency);
-	void resetIfTime();
+	void resetIfTime(unsigned int* timer);
 
 	private:
 	void cleanIndicator();
@@ -102,15 +102,14 @@ class Display {
 	bool currentSharpPinStatus = false;
 	cRGB indicatorBar[INDICATOR_BAR_LEN];
 	
-	unsigned long time_at_last_display = 0;
 	static const unsigned int time_to_reset = 5000;
 
 	
 	// Adjust those to alter light. LEDs are lighted according to three linear functions intersecting
 	static constexpr double MAX_ANALOG {MAX_ANALOG_LED_VAL}; // LEDS do not need to go any higher
 	
-	static constexpr double xBoundFactors[LEDFunctions_Len] = { 0.035, 0.15, 0.35 };
-	static constexpr double yBoundFactors[LEDFunctions_Len] = { 0.4, 0.05, 0.0 };
+	static constexpr double xBoundFactors[LEDFunctions_Len] = { 0.08, 0.15, 0.35 };
+	static constexpr double yBoundFactors[LEDFunctions_Len] = { 0.45, 0.15, 0.0 };
 	static constexpr double yBounds[LEDFunctions_Len] = {
 		yBoundFactors[0] * MAX_ANALOG,
 		yBoundFactors[1] * MAX_ANALOG,

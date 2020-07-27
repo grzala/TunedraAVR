@@ -168,9 +168,6 @@
     <Compile Include="include\noteDetection.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="include\frequencyDetection.h">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="include\light_ws2812.h">
       <SubType>compile</SubType>
     </Compile>
@@ -184,9 +181,6 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="src\noteDetection.cpp">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="src\frequencyDetection.cpp">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="src\light_ws2812.c">

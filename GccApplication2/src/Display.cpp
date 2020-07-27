@@ -185,14 +185,13 @@ void Display::displayNote(const Note* note, double frequency) {
 	this->light(di);
 	this->lightSharp(note->sharp);
 	this->lightIndicator(note, frequency);
-	//this->time_at_last_display = millis();
 }
 
-void Display::resetIfTime() {
-	//unsigned long currentTime = millis();
-	//if (currentTime - this->time_at_last_display > this->time_to_reset) {
-		//this->clean();
-		//this->lightSharp(false);
-		//this->cleanIndicator();
-	//}
+void Display::resetIfTime(unsigned int* timer) {
+	if (*timer > this->time_to_reset) {
+		this->clean();
+		this->lightSharp(false);
+		this->cleanIndicator();
+		*timer = 0;
+	}
 }

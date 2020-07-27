@@ -18,7 +18,7 @@
 #define DISPLAY_PORT_LED_CONFIG DDRB
 #define DISPLAY_PORT_OUTPUT PORTD
 #define DISPLAY_PORT_CONFIG DDRD
-#define MAX_ANALOG_LED_VAL 60.0
+#define MAX_ANALOG_LED_VAL 120.0
 
 #define midPin_ 1
 #define upPin_ 4
@@ -28,6 +28,8 @@
 #define downLPin_ 3
 #define upLPin_ 0
 #define sharpPin_ 7
+
+#define FREQ_SAMPLING_RATE 38462.0
 
 
 #endif /* CONFIG_H_ */

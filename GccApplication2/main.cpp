@@ -25,7 +25,7 @@ void setup() {
 	//Serial.begin(115200);
 	
 	// (mid, up, upright, downright, down, leftdown, rightdown, sharp, led data pin)
-	displ.initialize();
+	//displ.initialize();
 	
 	cli();//diable interrupts
 	
@@ -39,7 +39,7 @@ void setup() {
 	ADMUX |= (1 << ADLAR); //left align the ADC value- so we can read highest 8 bits from ADCH register only
 	
 	// 0b11101100
-	ADCSRA |= (1 << ADPS2); //set ADC clock with 32 prescaler- 8mHz/16=500kHz
+	ADCSRA |= (1 << ADPS2); //set ADC clock with 16 prescaler- 8mHz/16=500kHz
 	ADCSRA |= (1 << ADFR); //enabble auto trigger
 	ADCSRA |= (1 << ADIE); //enable interrupts when measurement complete
 	ADCSRA |= (1 << ADEN); //enable ADC
@@ -63,6 +63,7 @@ static volatile int timer[10];//storage for timing of events
 static volatile int slope[10];//storage for slope of events
 static volatile unsigned int totalTimer;//used to calculate period
 static volatile unsigned int period;//storage for period of wave
+static volatile bool periodReady = false;
 static volatile unsigned char index = 0;//current storage index
 static volatile float frequency;//storage for frequency calculations
 static volatile int maxSlope = 0;//used to calculate max slope as trigger point
@@ -93,6 +94,8 @@ ISR(ADC_vect) {//when new ADC value ready
 	//return; /////////////////////////////////// COMMENT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	prevData = newData;//store previous value
 	newData = ADCH;//get value from A0
+	USART_Transmit(newData);
+	USART_Transmit(' ');
 	
 	if (prevData < MID_POINT && newData >= MID_POINT){//if increasing and crossing midpoint
 		newSlope = newData - prevData;//calculate slope
@@ -114,6 +117,7 @@ ISR(ADC_vect) {//when new ADC value ready
 					totalTimer+=timer[i];
 				}
 				period = totalTimer;//set period
+				periodReady = true;
 				//reset new zero index values to compare with
 				timer[0] = timer[index];
 				slope[0] = slope[index];
@@ -169,10 +173,10 @@ void checkClipping(){//manage clipping indication
 // --------------------------------------------------------------- END PHYSICS -----------------------------------------------------------------------------
 
 // For normalizing huge and short deviations
-const int LONG_FREQ_AR_LEN = 60;
+const int LONG_FREQ_AR_LEN = 35;
 double long_last_frequencies[LONG_FREQ_AR_LEN];
 int long_freq_ar_i = 0;
-const double FREQ_MAX_DIFF = 0.2f;
+const double FREQ_MAX_DIFF = 0.15f;
 
 // For normalizing small short deviations
 const int SHORT_FREQ_AR_LEN = 10;
@@ -191,38 +195,80 @@ double get_av(double* ar, int len) {
 	return sum/(double)len;
 }
 
+double calculateSD(double* ar, int len)
+{
+	double sum = 0.0, mean, standardDeviation = 0.0;
+
+	int i;
+
+	for(i = 0; i < len; ++i)
+	{
+		sum += ar[i];
+	}
+
+	mean = sum/len;
+
+	for(i = 0; i < len; ++i)
+	standardDeviation += pow(ar[i] - mean, 2);
+
+	return sqrt(standardDeviation / len);
+}
 
 int main() {
 	setup();
-	//USART_Init ( MYUBRR );
+	USART_Init ( MYUBRR );
+	USART_Transmit('a');
 	while(1) {
-		float voltage = newData * (5.0 / 1023.0);
+		
 		if (checkMaxAmp > ampThreshold) /* && checkMaxAmp < maxAmpThreshold) */ {
-			frequency = 38462.0/float(period);//calculate frequency timer rate/period
+			if (periodReady) { // prevent working twice with the same reading
+				periodReady = false;
+				
+				frequency = FREQ_SAMPLING_RATE/float(period);//calculate frequency timer rate/period
+				
+				//USART_Transmit_int((int)frequency);
+				//USART_Println();
 			
-			// Ignore noise and big swings
-			long_last_frequencies[long_freq_ar_i++] = frequency;
-			if (long_freq_ar_i >= LONG_FREQ_AR_LEN) long_freq_ar_i = 0;
-			float long_average_freq = get_av(long_last_frequencies, LONG_FREQ_AR_LEN);
-			float diff = abs(long_average_freq - frequency);
-			float max_diff = long_average_freq * FREQ_MAX_DIFF;
+				if (isFreqLegal(frequency)) {
+			
+					// Ignore noise and big swings
+					long_last_frequencies[long_freq_ar_i++] = frequency;
+					if (long_freq_ar_i >= LONG_FREQ_AR_LEN) long_freq_ar_i = 0;
+					float long_average_freq = get_av(long_last_frequencies, LONG_FREQ_AR_LEN);
+					float diff = abs(long_average_freq - frequency);
+					float max_diff = long_average_freq * FREQ_MAX_DIFF;
 
-			if (diff < max_diff){
-				// get average freq
-				short_last_frequencies[short_freq_ar_i++] = frequency;
-				if (short_freq_ar_i >= SHORT_FREQ_AR_LEN) short_freq_ar_i = 0;
-				float short_average_freq = get_av(short_last_frequencies, SHORT_FREQ_AR_LEN);
-
-				getNoteByFreq(&currentNote, short_average_freq); // RECOGNIZE NOTE
-				if (currentNote.valid) {
-					displ.displayNote(&currentNote, short_average_freq); // DISPLAY NOTE
-					//displ.light((DI::E));
+					if (diff < max_diff){
+						// get average freq
+						short_last_frequencies[short_freq_ar_i++] = frequency;
+						if (short_freq_ar_i >= SHORT_FREQ_AR_LEN) short_freq_ar_i = 0;
+					}
+			
+					float short_average_freq = get_av(short_last_frequencies, SHORT_FREQ_AR_LEN);
+					getNoteByFreq(&currentNote, short_average_freq); // RECOGNIZE NOTE
+					if (currentNote.valid) {
+						//USART_Transmit_int((int)short_average_freq);
+						//USART_Println();
+						//USART_Println();
+						displ.displayNote(&currentNote, short_average_freq); // DISPLAY NOTE
+						//USART_Transmit(currentNote.note);
+						//USART_Println();
+					}
+				
+				
+					double sd = calculateSD(long_last_frequencies, LONG_FREQ_AR_LEN);
+					//USART_Transmit_int((int)(sd*100.0));
+					//USART_Transmit(' ');
+					//USART_Transmit_int((int)(frequency*100.0));
+					//USART_Transmit(' ');
+					//USART_Transmit_int((int)(short_average_freq*100.0));
+					//USART_Transmit(' ');
+					//USART_Println();
 				}
 			}
-			
-		}
+		} 
 		
-		DELAY(10);
+		_delay_ms(10);
 	}
 	
 	return 0;
