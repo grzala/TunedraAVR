@@ -94,8 +94,8 @@ ISR(ADC_vect) {//when new ADC value ready
 	//return; /////////////////////////////////// COMMENT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	prevData = newData;//store previous value
 	newData = ADCH;//get value from A0
-	USART_Transmit(newData);
-	USART_Transmit(' ');
+	//USART_Transmit(newData);
+	//USART_Transmit(' ');
 	
 	if (prevData < MID_POINT && newData >= MID_POINT){//if increasing and crossing midpoint
 		newSlope = newData - prevData;//calculate slope
@@ -257,13 +257,13 @@ int main() {
 				
 				
 					double sd = calculateSD(long_last_frequencies, LONG_FREQ_AR_LEN);
-					//USART_Transmit_int((int)(sd*100.0));
-					//USART_Transmit(' ');
-					//USART_Transmit_int((int)(frequency*100.0));
-					//USART_Transmit(' ');
-					//USART_Transmit_int((int)(short_average_freq*100.0));
-					//USART_Transmit(' ');
-					//USART_Println();
+					USART_Transmit_int((int)(sd*100.0));
+					USART_Transmit(' ');
+					USART_Transmit_int((int)(frequency*100.0));
+					USART_Transmit(' ');
+					USART_Transmit_int((int)(short_average_freq*100.0));
+					USART_Transmit(' ');
+					USART_Println();
 				}
 			}
 		} 
