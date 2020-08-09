@@ -71,8 +71,9 @@ static volatile int newSlope;//storage for incoming slope data
 
 //variables for decided whether you have a match
 static volatile char noMatch = 0;//counts how many non-matches you've received to reset variables if it's been too long
-static volatile char slopeTol = 3;//slope tolerance- adjust this if you need
-static volatile int timerTol = 10;//timer tolerance- adjust this if you need
+static volatile const char slopeTol = 3;//slope tolerance- adjust this if you need
+static volatile const int timerTol = 10;//timer tolerance- adjust this if you need
+static volatile const int noMatchLimit = 9;
 
 //variables for amp detection
 unsigned int ampTimer = 0;
@@ -82,7 +83,7 @@ static volatile char ampThreshold = 16;//raise if you have a very noisy signal
 
 static volatile const char MID_POINT = 127; //2.5V
 
-static volatile unsigned int ticks = 0;
+static volatile int ticks = 0;
 
 void reset(){//clean out some variables
 	index = 0;//reset index
@@ -91,12 +92,10 @@ void reset(){//clean out some variables
 }
 
 ISR(ADC_vect) {//when new ADC value ready
-	++ticks;
+	//++ticks;
 	//return; /////////////////////////////////// COMMENT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	prevData = newData;//store previous value
 	newData = ADCH;//get value from A0
-	//USART_Transmit(newData);
-	//USART_Transmit(' ');
 	
 	if (prevData < MID_POINT && newData >= MID_POINT){//if increasing and crossing midpoint
 		newSlope = newData - prevData;//calculate slope
@@ -118,10 +117,6 @@ ISR(ADC_vect) {//when new ADC value ready
 					totalTimer+=timer[i];
 				}
 				period = totalTimer;//set period
-				if (checkMaxAmp > ampThreshold) {
-					USART_Transmit_int((int)(FREQ_SAMPLING_RATE/float(period)*100.0));
-					USART_Println();
-				}
 				periodReady = true;
 				//reset new zero index values to compare with
 				timer[0] = timer[index];
@@ -131,7 +126,7 @@ ISR(ADC_vect) {//when new ADC value ready
 			}
 			else{//crossing midpoint but not match
 				index++;//increment index
-				if (index > 9){
+				if (index > noMatchLimit){
 					reset();
 				}
 			}
@@ -178,13 +173,13 @@ void checkClipping(){//manage clipping indication
 // --------------------------------------------------------------- END PHYSICS -----------------------------------------------------------------------------
 
 // For normalizing huge and short deviations
-const int LONG_FREQ_AR_LEN = 25;
+const int LONG_FREQ_AR_LEN = 30;
 double long_last_frequencies[LONG_FREQ_AR_LEN];
 int long_freq_ar_i = 0;
 const double FREQ_MAX_DIFF = 0.2f;
 
 // For normalizing small short deviations
-const int SHORT_FREQ_AR_LEN = 10;
+const int SHORT_FREQ_AR_LEN = 12;
 double short_last_frequencies[SHORT_FREQ_AR_LEN];
 int short_freq_ar_i = 0;
 
@@ -225,6 +220,8 @@ int main() {
 	USART_Transmit('a');
 	while(1) {
 		
+		USART_Transmit_int((int)checkMaxAmp);
+		USART_Transmit(' ');
 		if (checkMaxAmp > ampThreshold) /* && checkMaxAmp < maxAmpThreshold) */ {
 			if (periodReady) { // prevent working twice with the same reading
 				periodReady = false;
@@ -261,21 +258,23 @@ int main() {
 					}
 				
 				
-					//double sd = calculateSD(long_last_frequencies, LONG_FREQ_AR_LEN);
-					//USART_Transmit_int((int)(sd*100.0));
-					//USART_Transmit(' ');
-					//USART_Transmit_int((int)(frequency*100.0));
-					//USART_Transmit(' ');
-					//USART_Transmit_int((int)(short_average_freq*100.0));
-					//USART_Transmit(' ');
-					//USART_Transmit_int((int)(period));
-					//USART_Transmit(' ');
-					//USART_Println();
+					double sd = calculateSD(long_last_frequencies, LONG_FREQ_AR_LEN);
+					USART_Transmit_int((int)(sd*100.0));
+					USART_Transmit(' ');
+					USART_Transmit_int((int)(frequency*100.0));
+					USART_Transmit(' ');
+					USART_Transmit_int((int)(short_average_freq*100.0));
+					USART_Transmit(' ');
+					USART_Transmit_int((int)(ticks));
+					USART_Transmit(' ');
+					USART_Println();
+					
+					ticks = 0;
 				}
 			}
 		} 
 		
-		_delay_ms(5);
+		_delay_ms(25);
 	}
 	
 	return 0;
