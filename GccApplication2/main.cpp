@@ -79,7 +79,7 @@ static volatile const int noMatchLimit = 9;
 unsigned int ampTimer = 0;
 static volatile char maxAmp = 0;
 static volatile char checkMaxAmp;
-static volatile char ampThreshold = 16;//raise if you have a very noisy signal
+static volatile char ampThreshold = 13;//raise if you have a very noisy signal
 
 static volatile const char MID_POINT = 127; //2.5V
 
@@ -216,12 +216,10 @@ double calculateSD(double* ar, int len)
 
 int main() {
 	setup();
-	USART_Init ( MYUBRR );
-	USART_Transmit('a');
+	//USART_Init ( MYUBRR );
+	//USART_Transmit('a');
 	while(1) {
 		
-		USART_Transmit_int((int)checkMaxAmp);
-		USART_Transmit(' ');
 		if (checkMaxAmp > ampThreshold) /* && checkMaxAmp < maxAmpThreshold) */ {
 			if (periodReady) { // prevent working twice with the same reading
 				periodReady = false;
@@ -237,7 +235,7 @@ int main() {
 					long_last_frequencies[long_freq_ar_i++] = frequency;
 					if (long_freq_ar_i >= LONG_FREQ_AR_LEN) long_freq_ar_i = 0;
 					float long_average_freq = get_av(long_last_frequencies, LONG_FREQ_AR_LEN);
-					float diff = abs(long_average_freq - frequency);
+					float diff = fabs(long_average_freq - frequency);
 					float max_diff = long_average_freq * FREQ_MAX_DIFF;
 
 					if (diff < max_diff){
@@ -258,16 +256,16 @@ int main() {
 					}
 				
 				
-					double sd = calculateSD(long_last_frequencies, LONG_FREQ_AR_LEN);
-					USART_Transmit_int((int)(sd*100.0));
-					USART_Transmit(' ');
-					USART_Transmit_int((int)(frequency*100.0));
-					USART_Transmit(' ');
-					USART_Transmit_int((int)(short_average_freq*100.0));
-					USART_Transmit(' ');
-					USART_Transmit_int((int)(ticks));
-					USART_Transmit(' ');
-					USART_Println();
+					//double sd = calculateSD(long_last_frequencies, LONG_FREQ_AR_LEN);
+					//USART_Transmit_int((int)(sd*100.0));
+					//USART_Transmit(' ');
+					//USART_Transmit_int((int)(frequency*100.0));
+					//USART_Transmit(' ');
+					//USART_Transmit_int((int)(short_average_freq*100.0));
+					//USART_Transmit(' ');
+					//USART_Transmit_int((int)(ticks));
+					//USART_Transmit(' ');
+					//USART_Println();
 					
 					ticks = 0;
 				}

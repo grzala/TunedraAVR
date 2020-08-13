@@ -36,7 +36,7 @@ void getNoteByFreq(Note* note, double freq) {
 	double min_distance = MAX_FREQ;
 	int closest_i = -1;
 	for (int note_i = 0; note_i < NOTES_IN_OCTAVE; note_i++) {
-		double distance = abs(freq - (firstOctaveFreqs[note_i]*multiplier));
+		double distance = fabs(freq - (firstOctaveFreqs[note_i]*multiplier));
 		if (distance < min_distance) {
 			min_distance = distance;
 			closest_i = note_i;

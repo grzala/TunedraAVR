@@ -108,8 +108,8 @@ class Display {
 	// Adjust those to alter light. LEDs are lighted according to three linear functions intersecting
 	static constexpr double MAX_ANALOG {MAX_ANALOG_LED_VAL}; // LEDS do not need to go any higher
 	
-	static constexpr double xBoundFactors[LEDFunctions_Len] = { 0.08, 0.15, 0.35 };
-	static constexpr double yBoundFactors[LEDFunctions_Len] = { 0.45, 0.15, 0.0 };
+	static constexpr double xBoundFactors[LEDFunctions_Len] = { 0.085, 0.15, 0.35 };
+	static constexpr double yBoundFactors[LEDFunctions_Len] = { 0.50, 0.20, 0.0 };
 	static constexpr double yBounds[LEDFunctions_Len] = {
 		yBoundFactors[0] * MAX_ANALOG,
 		yBoundFactors[1] * MAX_ANALOG,

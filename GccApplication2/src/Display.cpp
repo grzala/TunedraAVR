@@ -113,6 +113,8 @@ int Display::getIndicatorValByDistance(double distance, double max_distance) {
 	this->rebuildCache(max_distance); // find new functions
 	
 	if (distance < 0) return MAX_ANALOG; // distance should never be negative - in case it is, return max
+	if (distance > max_distance) return 0;
+	
 	if (distance > ledFCache.xBounds[2]) return 0; // always no light if distance too high
 
 	// Find which function to use
@@ -122,6 +124,12 @@ int Display::getIndicatorValByDistance(double distance, double max_distance) {
 	break;
 	
 	int val = (int)((ledFCache.As[i] * distance) + ledFCache.Bs[i]);
+	
+	//float inv_dist = max_distance - distance;
+	//float percentage = (inv_dist / max_distance) * 100.0;
+	//int val = (int)(percentage * (float)MAX_ANALOG);
+	
+	
 	return val;
 }
 
@@ -137,11 +145,12 @@ void Display::lightIndicator(const Note* note, double currentFreq) {
 	
 	double dists[] = {
 		fmin(max_dist, currentFreq - note->min_freq),
-		fmin(max_dist, abs(currentFreq - bound_1)),
-		fmin(max_dist, abs(currentFreq - note->freq)),
-		fmin(max_dist, abs(bound_3 - currentFreq)),
+		fmin(max_dist, fabs(currentFreq - bound_1)),
+		fmin(max_dist, fabs(currentFreq - note->freq)),
+		fmin(max_dist, fabs(bound_3 - currentFreq)),
 		fmin(max_dist, note->max_freq - currentFreq)
 	};
+	
 	
 	for (int i = 0; i < INDICATOR_BAR_LEN; i++) {
 		int val = this->getIndicatorValByDistance(dists[i], max_dist);
