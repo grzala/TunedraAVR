@@ -216,8 +216,8 @@ double calculateSD(double* ar, int len)
 
 int main() {
 	setup();
-	//USART_Init ( MYUBRR );
-	//USART_Transmit('a');
+	//USART_Init ( MYUBRR ); for printing
+	
 	while(1) {
 		
 		if (checkMaxAmp > ampThreshold) /* && checkMaxAmp < maxAmpThreshold) */ {
@@ -226,9 +226,6 @@ int main() {
 				
 				frequency = FREQ_SAMPLING_RATE/float(period);//calculate frequency timer rate/period
 				
-				//USART_Transmit_int((int)frequency);
-				//USART_Println();
-			
 				if (isFreqLegal(frequency)) {
 			
 					// Ignore noise and big swings
@@ -247,25 +244,9 @@ int main() {
 					float short_average_freq = get_av(short_last_frequencies, SHORT_FREQ_AR_LEN);
 					getNoteByFreq(&currentNote, short_average_freq); // RECOGNIZE NOTE
 					if (currentNote.valid) {
-						//USART_Transmit_int((int)short_average_freq);
-						//USART_Println();
-						//USART_Println();
 						displ.displayNote(&currentNote, short_average_freq); // DISPLAY NOTE
-						//USART_Transmit(currentNote.note);
-						//USART_Println();
 					}
 				
-				
-					//double sd = calculateSD(long_last_frequencies, LONG_FREQ_AR_LEN);
-					//USART_Transmit_int((int)(sd*100.0));
-					//USART_Transmit(' ');
-					//USART_Transmit_int((int)(frequency*100.0));
-					//USART_Transmit(' ');
-					//USART_Transmit_int((int)(short_average_freq*100.0));
-					//USART_Transmit(' ');
-					//USART_Transmit_int((int)(ticks));
-					//USART_Transmit(' ');
-					//USART_Println();
 					
 					ticks = 0;
 				}
