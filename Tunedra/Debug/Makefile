@@ -80,9 +80,9 @@ src/noteDetection.d \
 src/light_ws2812.d \
 src/serial.d
 
-OUTPUT_FILE_PATH +=GccApplication2.elf
+OUTPUT_FILE_PATH +=Tunedra.elf
 
-OUTPUT_FILE_PATH_AS_ARGS +=GccApplication2.elf
+OUTPUT_FILE_PATH_AS_ARGS +=Tunedra.elf
 
 ADDITIONAL_DEPENDENCIES:=
 
@@ -155,13 +155,13 @@ all: $(OUTPUT_FILE_PATH) $(ADDITIONAL_DEPENDENCIES)
 $(OUTPUT_FILE_PATH): $(OBJS) $(USER_OBJS) $(OUTPUT_FILE_DEP) $(LIB_DEP) $(LINKER_SCRIPT_DEP)
 	@echo Building target: $@
 	@echo Invoking: AVR8/GNU Linker : 5.4.0
-	$(QUOTE)C:\avr8-gnu\bin\avr-g++.exe$(QUOTE) -o$(OUTPUT_FILE_PATH_AS_ARGS) $(OBJS_AS_ARGS) $(USER_OBJS) $(LIBS) -Wl,-Map="GccApplication2.map" -Wl,-u,vfprintf -Wl,--start-group -Wl,-lm  -Wl,--end-group -Wl,--gc-sections -mmcu=atmega8 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\gcc\dev\atmega8"  
+	$(QUOTE)C:\avr8-gnu\bin\avr-g++.exe$(QUOTE) -o$(OUTPUT_FILE_PATH_AS_ARGS) $(OBJS_AS_ARGS) $(USER_OBJS) $(LIBS) -Wl,-Map="Tunedra.map" -Wl,-u,vfprintf -Wl,--start-group -Wl,-lm  -Wl,--end-group -Wl,--gc-sections -mmcu=atmega8 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\gcc\dev\atmega8"  
 	@echo Finished building target: $@
-	"C:\avr8-gnu\bin\avr-objcopy.exe" -O ihex -R .eeprom -R .fuse -R .lock -R .signature -R .user_signatures  "GccApplication2.elf" "GccApplication2.hex"
-	"C:\avr8-gnu\bin\avr-objcopy.exe" -j .eeprom  --set-section-flags=.eeprom=alloc,load --change-section-lma .eeprom=0  --no-change-warnings -O ihex "GccApplication2.elf" "GccApplication2.eep" || exit 0
-	"C:\avr8-gnu\bin\avr-objdump.exe" -h -S "GccApplication2.elf" > "GccApplication2.lss"
-	"C:\avr8-gnu\bin\avr-objcopy.exe" -O srec -R .eeprom -R .fuse -R .lock -R .signature -R .user_signatures "GccApplication2.elf" "GccApplication2.srec"
-	"C:\avr8-gnu\bin\avr-size.exe" "GccApplication2.elf"
+	"C:\avr8-gnu\bin\avr-objcopy.exe" -O ihex -R .eeprom -R .fuse -R .lock -R .signature -R .user_signatures  "Tunedra.elf" "Tunedra.hex"
+	"C:\avr8-gnu\bin\avr-objcopy.exe" -j .eeprom  --set-section-flags=.eeprom=alloc,load --change-section-lma .eeprom=0  --no-change-warnings -O ihex "Tunedra.elf" "Tunedra.eep" || exit 0
+	"C:\avr8-gnu\bin\avr-objdump.exe" -h -S "Tunedra.elf" > "Tunedra.lss"
+	"C:\avr8-gnu\bin\avr-objcopy.exe" -O srec -R .eeprom -R .fuse -R .lock -R .signature -R .user_signatures "Tunedra.elf" "Tunedra.srec"
+	"C:\avr8-gnu\bin\avr-size.exe" "Tunedra.elf"
 	
 	
 
@@ -173,5 +173,5 @@ $(OUTPUT_FILE_PATH): $(OBJS) $(USER_OBJS) $(OUTPUT_FILE_DEP) $(LIB_DEP) $(LINKER
 clean:
 	-$(RM) $(OBJS_AS_ARGS) $(EXECUTABLES)  
 	-$(RM) $(C_DEPS_AS_ARGS)   
-	rm -rf "GccApplication2.elf" "GccApplication2.a" "GccApplication2.hex" "GccApplication2.lss" "GccApplication2.eep" "GccApplication2.map" "GccApplication2.srec" "GccApplication2.usersignatures"
+	rm -rf "Tunedra.elf" "Tunedra.a" "Tunedra.hex" "Tunedra.lss" "Tunedra.eep" "Tunedra.map" "Tunedra.srec" "Tunedra.usersignatures"
 	
