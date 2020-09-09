@@ -24,8 +24,8 @@
 #define upPin_ 4
 #define upRPin_ 5
 #define downRPin_ 6
-#define downPin_ 2
-#define downLPin_ 3
+#define downPin_ 3
+#define downLPin_ 2
 #define upLPin_ 0
 #define sharpPin_ 7
 
