@@ -31,8 +31,10 @@
 
 // #define FREQ_SAMPLING_RATE 38362.0 
 // #define FREQ_SAMPLING_RATE 42798.0 // 8 prescaler
- #define FREQ_SAMPLING_RATE 39062.0 // 16 prescaler
+// #define FREQ_SAMPLING_RATE 39062.0 // 16 prescaler
 // #define FREQ_SAMPLING_RATE 19834.0 // 32 prescaler
+
+#define FREQ_SAMPLING_RATE 40100.0 // Adjust to show correct freq
 
 
 #endif /* CONFIG_H_ */
